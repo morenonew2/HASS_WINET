@@ -1,0 +1,3 @@
+title: WINET
+views:
+  - !include lovelace/winet_view.yaml

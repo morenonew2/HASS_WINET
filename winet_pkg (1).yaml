@@ -1,0 +1,238 @@
+homeassistant:
+
+input_boolean:
+  water_stufa:
+    name: "water stufa" 
+    icon: mdi:thermometer-water
+  vis_scheda_livello_pellet:
+    name: "Vis. scheda livello pellet"
+    icon: mdi:waves-arrow-up
+  potenze_winet:
+    name: "Potenze winet"
+    icon: mdi:sun-wireless
+    
+    
+input_text:
+  valore_ip_locale_stufa:
+    name: "Valore IP Locale stufa"
+    icon: mdi:ip
+    min: 0
+    max: 16
+    
+input_select:
+  seleziona_potenza:
+    name: "Seleziona potenza"
+    icon: mdi:fire-circle
+    options:
+      - 1
+      - 2
+      - 3
+      - 4
+
+input_number:
+  scegli_temperatura_water:
+    name: "scegli temperatura water"
+    icon: mdi:water-thermometer
+    unit_of_measurement: "°C"
+    min: 40
+    max: 80
+    step: 1
+  scegli_temperatura:
+    name: "Scegli temperatura"
+    icon: mdi:home-thermometer
+    unit_of_measurement: "°C"
+    min: 10
+    max: 40
+    step: 1
+
+
+
+########  comandi in scrittura  ###############
+rest_command:
+  set_power:
+    url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/power/{{ states("input_select.seleziona_potenza") }}' #input_select.seleziona_potenza
+  set_temperatura:
+    url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/temperature/air/{{ (states("input_number.scegli_temperatura") | int * 2)  }}' #input_number.scegli_temperatura
+  set_temperatura_water:
+    url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/temperature/water/{{ (states("input_number.scegli_temperatura_water") | int)  }}' #input_number.scegli_temperatura_water 
+  accensione_stufa:
+    url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/status/1'
+  spegnimento_stufa:
+    url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/status/0'
+
+####    comandi in lettura ###################
+rest:
+        
+######   VALORI GLOBAL   ##########################
+  - scan_interval: 15
+    resource_template: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/global' ##input_text.valore_ip_locale_stufa input_text.valore_ip_locale_stufa
+    sensor:
+      - name: "STATUS STUFA"
+        unique_id: status_stufa
+        value_template: >
+          {% set st = value_json.status %}
+          {% if st == 0 %}
+            SPENTO
+          {% elif st == 1 %}
+            ACCESO
+          {% elif st == 2 %}
+            PULIZIA FINALE
+          {% elif st == 3 %}
+            ALARM
+          {% elif st == 4 %}
+            UNMANAGED
+          {% else %}
+            UNKNOWN
+          {% endif %}
+      - name: "STATUS DESCRIPTION STUFA" ### DESCRIZIONE STATUS ###
+        unique_id: status_description_stufa
+        value_template: >  
+          {{ value_json.description }}
+      - name: "Potenza impostata" ### potenza IMPOSTATA ###
+        unique_id: stufa_power_set
+        value_template: >
+          {{ value_json.power }}          
+      - name: "Temperatura aria " ### TEMPERATURA ARIA ### 
+        unique_id: temperatura_aria 
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.air | float(2) / 2 }}
+      - name: "Temperatura aria impostata" ### TEMPERATURA IMPOSTATA ###
+        unique_id: temperatura_aria_impostata      
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.setAir | float(2) / 2 }}   
+      - name: "Temperatura acqua impostata" ### TEMPERATURA ACQUA IMPOSTATA ###
+        unique_id: temperatura_water_impostata      
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.setWater | float(2) }}      
+      - name: "Temperatura impostata" ### TEMPERATURA ACQUA ###
+        unique_id: temperatura_water      
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.water | float(2) }}
+      - name: "Temperatura fumi" ### TEMPERATURA FUMI ###
+        unique_id: temperatura_fumi      
+        value_template: >
+          {% set st1 = value_json.gasflue %}  
+          {% if st1 <= 30 %}
+            ---
+          {% else %}
+            {{ value_json.gasflue | float(2) }}"°C"
+          {% endif %} 
+      - name: "N. giri Estrattore fumi" ### N. GIRI ESTRATTORE ###
+        unique_id: rpm_extractor      
+        value_template: >
+          {% set st2 = value_json.rpmExtractor %}
+          {% if st2 == None %}
+            0
+          {% else %}
+            {{ value_json.rpmExtractor }} "giri/min"           
+          {% endif %} 
+ 
+#*************************************************
+#              SWITCH REST 
+#*************************************************
+
+# ACCENSIONE SPEGNIMENTO
+switch:
+  - platform: template
+    switches:
+      winet:
+        friendly_name: "Stufa On/Off"
+        unique_id: stufa_on_off
+        value_template: "{{ is_state('sensor.status_stufa', 'ACCESO') }}"
+        turn_on:
+          service: rest_command.accensione_stufa
+        turn_off:
+          service: rest_command.spegnimento_stufa
+
+#  TERMOSTATO 
+climate:
+  - platform: generic_thermostat
+    name: Piazzetta
+    unique_id: climate_piazzetta
+    heater: switch.piazzetta
+    target_sensor: sensor.temperatura_aria
+    min_temp: 15
+    max_temp: 21
+    ac_mode: false
+    target_temp: 17
+    cold_tolerance: 0.3
+    hot_tolerance: 0
+    min_cycle_duration:
+      seconds: 5
+    keep_alive:
+      minutes: 3
+    initial_hvac_mode: "off"
+    away_temp: 16
+    precision: 0.1
+
+automation:
+    - alias: Climate Stufa set temp
+      description: ""
+      trigger:
+        - platform: state
+          entity_id:
+            - sensor.temperatura_aria_impostata
+      condition: []
+      action:
+        - service: climate.set_temperature
+          data:
+            temperature: |
+              {{ states("sensor.temperatura_aria_impostata") | int }}
+          target:
+            entity_id: climate.piazzetta
+      mode: single
+      
+    - alias: WINET set potenza acceso
+      description: ""
+      trigger:
+        - platform: state
+          entity_id:
+            - input_boolean.potenze_winet
+          to: "on"
+      condition: []
+      action:
+        - service: input_select.set_options
+          data:
+            options:
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+              - 6
+              - 7
+              - 8
+              - 9
+          target:
+            entity_id: input_select.seleziona_potenza
+      mode: single  
+  
+    - alias: WINET set potenza spento
+      description: ""
+      trigger:
+        - platform: state
+          entity_id:
+            - input_boolean.potenze_winet
+          to: "off"
+      condition: []
+      action:
+        - service: input_select.set_options
+          data:
+            options:
+              - 1
+              - 2
+              - 3
+              - 4
+          target:
+            entity_id: input_select.seleziona_potenza
+      mode: single
+  
+  

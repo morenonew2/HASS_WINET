@@ -1,0 +1,134 @@
+title: Plancia di lavoro
+path: plancia-di-lavoro
+icon: mdi:stove
+badges: []
+cards:
+  - type: entities
+    entities:
+      - entity: sensor.status_description_stufa
+        icon: mdi:state-machine
+        name: Stato stufa
+      - entity: sensor.temperatura_aria
+        icon: mdi:thermometer
+      - entity: sensor.temperatura_aria_impostata
+        icon: mdi:thermometer
+      - entity: sensor.potenza_impostata
+        icon: mdi:fire-circle
+      - entity: sensor.temperatura_fumi
+        icon: mdi:temperature-celsius
+        unit_of_measurement: °C
+      - entity: sensor.n_giri_estrattore_fumi        
+    title: NEW API WINET
+    state_color: true
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: input_boolean.vis_scheda_livello_pellet
+        state: 'on'
+    card:
+      type: gauge
+      entity: sensor.livello_pellet_vl53l0x_distance
+      name: livello pellet
+      min: 10
+      needle: true
+      severity:
+        green: 80
+        yellow: 30
+        red: 0
+      max: 100
+  - type: thermostat
+    entity: climate.piazzetta
+  - type: entities
+    entities:
+      - type: button
+        name: Impostazioni
+        icon: mdi:cog-outline
+        tap_action:
+          confirmation:
+            text: Vuoi proseguire?
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              dismissable: true
+              autoclose: false
+              title: impostazioni
+              size: normal
+              right_button: Close
+              content:
+                type: entities
+                entities:
+                  - entity: input_boolean.potenze_winet
+                    name: Aumenta valori potenza
+                  - input_text.valore_ip_locale_stufa
+                  - entity: input_boolean.water_stufa
+                    name: Visualizza parametri acqua
+                  - input_boolean.vis_scheda_livello_pellet
+      - type: divider
+      - entity: input_select.seleziona_potenza
+        name: Scegli potenza
+      - type: button
+        name: Imposta
+        icon: mdi:fire
+        tap_action:
+          action: call-service
+          confirmation:
+            text: Vuoi proseguire?
+          service: rest_command.set_power
+          target: {}
+      - type: divider
+      - entity: input_number.scegli_temperatura
+        icon: mdi:thermometer
+        name: Temperatura desiderata
+      - type: button
+        name: Imposta
+        icon: mdi:temperature-celsius
+        tap_action:
+          action: call-service
+          confirmation:
+            text: Vuoi proseguire?
+          service: rest_command.set_temperatura
+          target: {}
+      - type: divider
+      - type: conditional
+        conditions:
+          - entity: input_boolean.water_stufa
+            state: 'on'
+        row:
+          entity: input_number.scegli_temperatura_water
+          name: Temperatura acqua
+          icon: mdi:water-thermometer
+      - type: conditional
+        conditions:
+          - entity: input_boolean.water_stufa
+            state: 'on'
+        row:
+          type: button
+          name: Imposta Temperatura Acqua
+          icon: mdi:temperature-celsius
+          tap_action:
+            action: call-service
+          confirmation:
+            text: Vuoi proseguire?
+          service: rest_command.set_temperatura_water
+          target: {}
+      - type: divider
+      - type: button
+        icon: mdi:power
+        name: Accensione
+        tap_action:
+          action: call-service
+          confirmation:
+            text: Vuoi proseguire?
+          service: rest_command.accensione_stufa
+          target: {}
+      - type: button
+        name: Spegnimento
+        icon: mdi:power
+        tap_action:
+          action: call-service
+          confirmation:
+            text: Vuoi proseguire?
+          service: rest_command.spegnimento_stufa
+          target: {}
+    state_color: true

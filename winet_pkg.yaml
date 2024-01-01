@@ -19,6 +19,51 @@ automation:
         entity_id: climate.piazzetta
   mode: single
 
+  alias: WINET set potenza acceso
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.potenze_winet
+      to: "on"
+  condition: []
+  action:
+    - service: input_select.set_options
+      data:
+        options:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+      target:
+        entity_id: input_select.seleziona_potenza
+  mode: single
+
+  alias: WINET set potenza spento
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.potenze_winet
+      to: "off"
+  condition: []
+  action:
+    - service: input_select.set_options
+      data:
+        options:
+          - 1
+          - 2
+          - 3
+          - 4
+      target:
+        entity_id: input_select.seleziona_potenza
+  mode: single  
+
 ###########################################################################
 #                      INPUT
 ###########################################################################
@@ -27,11 +72,51 @@ input_boolean:
   attiva_cronotermostato:
     name: "Attiva crono" 
     icon: mdi:thermostat-box  
+  water_stufa:
+    name: "water stufa"
+    icon: mdi:thermometer-water
   
   potenze_winet:  
     name: "modifica potenze"
-    icon: mdi:sun-compass
+    icon: mdi:sun-wireless
 
+input_number:
+  scegli_temperatura:
+    name: "Scegli temperatura"
+    min: 10
+    max: 40
+    step: 1
+    mode: slider
+    unit_of_measurement: "°C"
+  scegli_temperatura_water:
+    name: "scegli temperatura water"
+    min: 40
+    max: 80
+    step: 1
+    mode: slider
+    icon: mdi:water-thermometer
+    unit_of_measurement: "°C"  
+
+input_select:
+  seleziona_potenza:
+  name: "Seleziona potenza"
+  icon: mdi:fire-circle
+  options:
+    - 1
+    - 2
+    - 3
+    - 4
+
+input_text:
+  valore_ip_locale_stufa:
+  name: "Valore IP Locale stufa"
+  min: 0
+  max: 16
+  icon: mdi:ip
+  mode: text
+
+
+    
 ###########################################################################
 #                      REST COMMAND
 ###########################################################################
@@ -151,3 +236,26 @@ switch:
           service: rest_command.accensione_stufa
         turn_off:
           service: rest_command.spegnimento_stufa
+          
+###########################################################################
+#                            TERMOSTATO 
+###########################################################################
+climate:
+  - platform: generic_thermostat
+    name: Piazzetta
+    unique_id: climate_piazzetta
+    heater: switch.winet
+    target_sensor: sensor.temperatura_aria
+    min_temp: 15
+    max_temp: 21
+    ac_mode: false
+    target_temp: 17
+    cold_tolerance: 0.3
+    hot_tolerance: 0
+    min_cycle_duration:
+      seconds: 5
+    keep_alive:
+      minutes: 3
+    initial_hvac_mode: "off"
+    away_temp: 16
+    precision: 0.1

@@ -1,51 +1,69 @@
-title: Plancia di lavoro
-path: plancia-di-lavoro
-icon: mdi:stove
+title: WINET
+path: winet
+theme: Graphite
 badges: []
 cards:
+  - type: tile
+    entity: climate.piazzetta
+    show_entity_picture: true
+    entity_picture: /local/Pictures/P963.png
+    hide_state: false
+    color: accent
+    name: 'Termostato '
+    state_content:
+      - state
+      - current_temperature
+      - temperature
+    features:
+      - type: climate-hvac-modes
+        hvac_modes:
+          - 'off'
+          - heat
   - type: entities
     entities:
       - entity: sensor.status_description_stufa
         icon: mdi:state-machine
-        name: Stato stufa
+        name: Stato
+        secondary_info: none
+        card_mod:
+          style: |
+            :host {
+              font-size: 20px;         
+              {% if states('sensor.status_description_stufa') == "OFF" %}
+              --paper-item-icon-color: red;
+              color: red;
+              {% else %}
+              --paper-item-icon-color: green;
+              color: green;
+              {% endif %};
+            }
       - entity: sensor.temperatura_aria
-        icon: mdi:thermometer
+        name: Ambiente
       - entity: sensor.temperatura_aria_impostata
-        icon: mdi:thermometer
+        name: Impostazione temperatura
       - entity: sensor.potenza_impostata
-        icon: mdi:fire-circle
+        name: Potenza di funzionamento
       - entity: sensor.temperatura_fumi
-        icon: mdi:temperature-celsius
-        unit_of_measurement: °C
-      - entity: sensor.n_giri_estrattore_fumi        
-    title: NEW API WINET
-    state_color: true
-  - type: conditional
-    conditions:
-      - condition: state
-        entity: input_boolean.vis_scheda_livello_pellet
-        state: 'on'
-    card:
-      type: gauge
-      entity: sensor.livello_pellet_vl53l0x_distance
-      name: livello pellet
-      min: 10
-      needle: true
-      severity:
-        green: 80
-        yellow: 30
-        red: 0
-      max: 100
-  - type: thermostat
-    entity: climate.piazzetta
-  - type: entities
-    entities:
+        name: Temperatura estrazione fumi
+      - entity: sensor.n_giri_estrattore_fumi
+        name: Numero giri estrattore
+      - type: conditional
+        conditions:
+          - entity: input_boolean.water_stufa
+            state: 'on'
+        row:
+          entity: sensor.temperatura_impostata
+      - type: conditional
+        conditions:
+          - entity: input_boolean.water_stufa
+            state: 'on'
+        row:
+          entity: sensor.temperatura_acqua_impostata
+      - type: divider
       - type: button
         name: Impostazioni
         icon: mdi:cog-outline
         tap_action:
-          confirmation:
-            text: Vuoi proseguire?
           action: fire-dom-event
           browser_mod:
             service: browser_mod.popup
@@ -56,79 +74,149 @@ cards:
               size: normal
               right_button: Close
               content:
-                type: entities
-                entities:
-                  - entity: input_boolean.potenze_winet
-                    name: Aumenta valori potenza
-                  - input_text.valore_ip_locale_stufa
-                  - entity: input_boolean.water_stufa
-                    name: Visualizza parametri acqua
-                  - input_boolean.vis_scheda_livello_pellet
-      - type: divider
-      - entity: input_select.seleziona_potenza
-        name: Scegli potenza
-      - type: button
-        name: Imposta
-        icon: mdi:fire
-        tap_action:
-          action: call-service
-          confirmation:
-            text: Vuoi proseguire?
-          service: rest_command.set_power
-          target: {}
-      - type: divider
-      - entity: input_number.scegli_temperatura
-        icon: mdi:thermometer
-        name: Temperatura desiderata
-      - type: button
-        name: Imposta
-        icon: mdi:temperature-celsius
-        tap_action:
-          action: call-service
-          confirmation:
-            text: Vuoi proseguire?
-          service: rest_command.set_temperatura
-          target: {}
-      - type: divider
+                type: custom:layout-card
+                layout_type: masonry
+                layout: {}
+                cards:
+                  - type: vertical-stack
+                    title: Impostazioni
+                    cards:
+                      - type: entities
+                        entities:
+                          - entity: input_boolean.water_stufa
+                            name: Visual. temperatura acqua
+                          - entity: input_boolean.potenze_winet
+                            name: Gestisci valori potenza
+                          - entity: input_boolean.attiva_cronotermostato
+                      - features:
+                          - style: slider
+                            type: numeric-input
+                        type: tile
+                        entity: input_number.scegli_temperatura
+                        vertical: false
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_temperatura
+                          target: {}
+                        show_entity_picture: true
+                        hide_state: false
+                        icon: mdi:content-save
+                        name: Temperatura impostata
+                        color: cyan
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }
+                      - features:
+                          - style: slider
+                            type: numeric-input
+                        type: tile
+                        entity: input_number.scegli_temperatura_water
+                        name: Temperatura acqua
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_temperatura_water
+                          target: {}
+                        icon: mdi:content-save
+                        hide_state: false
+                        color: light-blue
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }
+                      - features:
+                          - type: select-options
+                        type: tile
+                        entity: input_select.seleziona_potenza
+                        name: Potenza funzionamento
+                        color: red
+                        icon: mdi:content-save
+                        vertical: false
+                        hide_state: true
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_power
+                          target: {}
+                      - type: tile
+                        entity: input_text.valore_ip_locale_stufa
+                        color: brown
+                        show_entity_picture: false
+                        state_content: state
+                        icon_tap_action:
+                          action: call-service
+                          service: ''
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }   
+    title: FUNZIONAMENTO
+    card_mod:
+      style: |
+        ha-card {
+          font-family: oswald;
+          font-size: 20px;
+
+        }
+  - type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: gauge
+            entity: sensor.n_giri_estrattore_fumi
+            unit: rpm
+            needle: true
+            severity:
+              green: 1000
+              yellow: 1999
+              red: 3000
+            max: 3500
+          - type: gauge
+            entity: sensor.potenza_impostata
+            min: 1
+            max: 9
+            needle: true
+            severity:
+              green: 0
+              yellow: 0
+              red: 0
       - type: conditional
         conditions:
-          - entity: input_boolean.water_stufa
+          - condition: state
+            entity: input_boolean.attiva_cronotermostato
             state: 'on'
-        row:
-          entity: input_number.scegli_temperatura_water
-          name: Temperatura acqua
-          icon: mdi:water-thermometer
-      - type: conditional
-        conditions:
-          - entity: input_boolean.water_stufa
-            state: 'on'
-        row:
-          type: button
-          name: Imposta Temperatura Acqua
-          icon: mdi:temperature-celsius
-          tap_action:
-            action: call-service
-          confirmation:
-            text: Vuoi proseguire?
-          service: rest_command.set_temperatura_water
-          target: {}
-      - type: divider
-      - type: button
-        icon: mdi:power
-        name: Accensione
-        tap_action:
-          action: call-service
-          confirmation:
-            text: Vuoi proseguire?
-          service: rest_command.accensione_stufa
-          target: {}
-      - type: button
-        name: Spegnimento
-        icon: mdi:power
-        tap_action:
-          action: call-service
-          confirmation:
-            text: Vuoi proseguire?
-          service: rest_command.spegnimento_stufa
-          target: {}
-    state_color: true
+        card:
+          type: custom:scheduler-card
+          include:
+            - climate
+            - climate.piazzetta
+          exclude:
+            - climate.camera_matteo
+            - climate.comet_dect_1
+            - climate.matrimoniale
+          title: true
+          sort_by:
+            - state
+            - relative-time
+          display_options:
+            primary_info: '{entity}: {action}'
+            secondary_info:
+              - relative-time
+              - additional-tasks
+            icon: action
+            Name: Cronotermostato
+          time_step: 15

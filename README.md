@@ -10,10 +10,14 @@ I pkg seguenti vanno installati tramite HACS
 -	Layout-card
 -	Scheduler-card
 -	Scheduler (integrazione)
+  
 Il file configuration.yaml si trova nella cartella di configurazione di Homeassistant ˂config˃
+
 ˂config˃ = /home/homeassistant/.homeassistant/ (p.es.  installazione tipica su Raspberry)
+
 Configuration.yaml
 Aggiungere testo evidenziato:
+
 
 homeassistant:
   packages: !include_dir_named packages
@@ -33,6 +37,7 @@ lovelace:
 
 Nella cartella ˂config˃ creare  file 
 winet_dashboard.yaml:
+
 
 title: WINET
 views:

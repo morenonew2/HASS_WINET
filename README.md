@@ -44,13 +44,17 @@ views:
   - !include lovelace/winet_view.yaml
 ```
  
-
+### Package
 Nella cartella lovelace  (crearla in ˂config˃se non esiste)
 Copiare file winet_view.yaml
-
 
 Nella cartella packages (crearla in ˂config˃se non esiste)
 Copiare file winet_pkg.yaml
  
+### Risorse
+Impostazioni > Plance > Risorse
+Aggiungere 
+URL: https://fonts.googleapis.com/css?family=Oswald
+Tipo risorsa: foglio di stile
 
  

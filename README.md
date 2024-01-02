@@ -7,7 +7,6 @@ Prerequisiti:
 I pkg seguenti vanno installati tramite HACS
 -	Browser_mode
 -	Card_mod
--	Button card
 -	Layout-card
 -	Scheduler-card
 -	Scheduler (integrazione)

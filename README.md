@@ -53,8 +53,11 @@ Copiare file winet_pkg.yaml
  
 ### Risorse
 Impostazioni > Plance > Risorse
+
 Aggiungere 
+
 URL: https://fonts.googleapis.com/css?family=Oswald
+
 Tipo risorsa: foglio di stile
 
  

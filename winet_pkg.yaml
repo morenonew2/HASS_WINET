@@ -99,21 +99,21 @@ input_number:
 
 input_select:
   seleziona_potenza:
-  name: "Seleziona potenza"
-  icon: mdi:fire-circle
-  options:
-    - 1
-    - 2
-    - 3
-    - 4
+    name: "Seleziona potenza"
+    icon: mdi:fire-circle
+    options:
+      - 1
+      - 2
+      - 3
+      - 4
 
 input_text:
   valore_ip_locale_stufa:
-  name: "Valore IP Locale stufa"
-  min: 0
-  max: 16
-  icon: mdi:ip
-  mode: text
+    name: "Valore IP Locale stufa"
+    min: 0
+    max: 16
+    icon: mdi:ip
+    mode: text
 
 
     

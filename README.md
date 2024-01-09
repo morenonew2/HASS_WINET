@@ -31,6 +31,12 @@ lovelace:
       icon: mdi:flower
       show_in_sidebar: true
       filename: winet_dashboard.yaml
+    lovelace-X3Relay:
+      mode: yaml
+      title: X3Relay
+      icon: mdi:flower
+      show_in_sidebar: true
+      filename: winet_dashboard.yaml
 ```
  
 
@@ -42,11 +48,13 @@ winet_dashboard.yaml:
 title: WINET
 views:
   - !include lovelace/winet_view.yaml
+  - !include lovelace/winet_x3relay_view.yaml
 ```
  
 ### Package
 Nella cartella lovelace  (crearla in ˂config˃se non esiste)
-Copiare file winet_view.yaml
+Copiare file winet_view.yaml 
+Copiare file winet_x3relay_view.yaml
 
 Nella cartella packages (crearla in ˂config˃se non esiste)
 Copiare file winet_pkg.yaml

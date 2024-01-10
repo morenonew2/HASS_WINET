@@ -31,23 +31,28 @@ lovelace:
       icon: mdi:flower
       show_in_sidebar: true
       filename: winet_dashboard.yaml
-    lovelace-X3Relay:
+    lovelace-x3relay:
       mode: yaml
       title: X3Relay
       icon: mdi:flower
       show_in_sidebar: true
-      filename: winet_dashboard.yaml
+      filename: winet_x3relay_dashboard.yaml
 ```
  
 
 
 ### Nella cartella ˂config˃ creare  file 
-winet_dashboard.yaml:
+c
 
 ```
 title: WINET
 views:
   - !include lovelace/winet_view.yaml
+```
+winet_x3relay_dashboard.yaml:
+```
+title: WINET X3
+views:
   - !include lovelace/winet_x3relay_view.yaml
 ```
  

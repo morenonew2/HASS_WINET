@@ -42,13 +42,13 @@ lovelace:
 
 
 ### Nella cartella ˂config˃ creare  file 
-c
-
+winet_dashboard.yaml:
 ```
 title: WINET
 views:
   - !include lovelace/winet_view.yaml
 ```
+
 winet_x3relay_dashboard.yaml:
 ```
 title: WINET X3

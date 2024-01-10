@@ -121,9 +121,9 @@ cards:
                   {% endif %};
                 }
           - type: divider
-          - entity: sensor.tsense_rele1_2
+          - entity: sensor.tsense_rele1
             name: TSense Battery
-          - entity: sensor.use_tsense_rele1_2
+          - entity: sensor.use_tsense_rele1
             name: 'Tipo sonda '
             icon: mdi:thermometer-probe
           - type: section
@@ -203,9 +203,9 @@ cards:
                   color: green;
                   {% endif %};
                 }        
-          - entity: sensor.tsense_rele2_2
+          - entity: sensor.tsense_rele2
             name: TSense Battery
-          - entity: sensor.use_tsense_rele2_2
+          - entity: sensor.use_tsense_rele2
             name: Tipo sonda
             icon: mdi:thermometer-probe
           - type: section
@@ -284,9 +284,9 @@ cards:
                   color: green;
                   {% endif %};
                 }        
-          - entity: sensor.tsense_rele3_2
+          - entity: sensor.tsense_rele3
             name: TSense Battery
-          - entity: sensor.use_tsense_rele3_2
+          - entity: sensor.use_tsense_rele3
             name: Tipo sonda
             icon: mdi:thermometer-probe
           - type: section

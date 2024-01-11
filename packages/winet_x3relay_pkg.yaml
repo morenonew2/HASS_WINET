@@ -393,6 +393,41 @@ rest:
           {% else %}
             Riscaldamento
           {% endif %}
+          
+######   VALORI ID   ##########################          
+      - name: "device_wifi_x3"
+        unique_id: device_wifi_x3
+        value_template: > 
+          {{ value_json.device.wifi }} 
+      - name: "device_cloud_x3"
+        unique_id: device_cloud_x3
+        value_template: > 
+          {{ value_json.device.cloud }}
+      - name: "device_signal_x3"
+        unique_id: device_signal_x3
+        value_template: > 
+          {{ value_json.device.signal }} 
+      - name: "device_ssid_x3"
+        unique_id: device_ssid_x3
+        value_template: > 
+          {{ value_json.device.ssid }}  
+          
+      - name: "device_ip_x3"
+        unique_id: device_ip_x3
+        value_template: > 
+          {{ value_json.device.ip }} 
+      - name: "device_gw_x3"
+        unique_id: device_gw_x3
+        value_template: > 
+          {{ value_json.device.gw }}
+      - name: "device_mask_x3"
+        unique_id: device_mask_x3
+        value_template: > 
+          {{ value_json.device.mask }} 
+      - name: "device_dhcp_x3"
+        unique_id: device_dhcp_x3
+        value_template: > 
+          {{ value_json.device.dhcp }}            
 
 ############################################################################
 #                           template switch

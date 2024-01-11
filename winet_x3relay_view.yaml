@@ -8,95 +8,114 @@ badges: []
 cards:
   - type: entities
     entities:
-      - type: button
-        name: Impostazioni
-        icon: mdi:cog-box
-        tap_action:
-          action: fire-dom-event
-          browser_mod:
-            service: browser_mod.popup
-            data:
-              dismissable: true
-              autoclose: false
-              title: Impostazioni
-              size: normal
-              right_button: Close
-              content:
-                type: custom:layout-card
-                layout_type: masonry
-                layout: {}
-                cards:
-                  - type: entities
-                    entities:
-                      - entity: input_select.seleziona_rele
-                      - entity: switch.x3_on_off
-                      - entity: switch.winet_2
-                        name: Automatico - Manuale
-                      - entity: switch.x3_use_cable_tsense
-                        name: TSense - Cable
-                      - type: divider
-                      - entity: sensor.probe_temp_x3
-                        name: Temp sonda
-                      - entity: sensor.season_x3
-                        name: Modalità
-                    state_color: true
-                    card_mod:
-                      style: |
-                        ha-card {
-                          font-family: oswald;
-                          font-size: 20px;
-                          color: black;
-
-                        }    
-                  - features:
-                      - style: slider
-                        type: numeric-input
-                    type: tile
-                    entity: input_number.scegli_temperatura_x3
-                    vertical: false
-                    icon_tap_action:
-                      action: call-service
-                      service: rest_command.set_temperatura_x3
-                      target: {}
-                    show_entity_picture: true
-                    hide_state: false
-                    icon: mdi:content-save
-                    name: Imposta temperatura
-                    color: cyan
-                    card_mod:
-                      style:
-                        ha-tile-info$: |
-                          .secondary {
-                            font-size: 20px !important;
-                          } 
-                          .primary {
-                            color: var(--entity-warning-color) !important;
-                          }  
-                  - type: tile
-                    entity: input_text.valore_ip_locale_x3
-                    color: brown
-                    show_entity_picture: false
-                    state_content: state
-                    icon_tap_action:
-                      action: call-service
-                      service: ''
-                    card_mod:
-                      style:
-                        ha-tile-info$: |
-                          .secondary {
-                            font-size: 20px !important;
-                          } 
-                          .primary {
-                            color: var(--entity-warning-color) !important;
-                          }  
-    card_mod:
-      style: |
-        ha-card {
-          font-family: oswald;
-          font-size: 18px;
-          #color: black;
-
-        }
+      - type: custom:paper-buttons-row
+        position: center
+        buttons:
+          - icon: hass:cog-outline
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  dismissable: true
+                  autoclose: false
+                  title: Impostazioni
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - type: entities
+                        entities:
+                          - entity: input_select.seleziona_rele
+                          - entity: switch.x3_on_off
+                          - entity: switch.winet_2
+                            name: Automatico - Manuale
+                          - entity: switch.x3_use_cable_tsense
+                            name: TSense - Cable
+                          - type: divider
+                          - entity: sensor.probe_temp_x3
+                            name: Temp sonda
+                          - entity: sensor.season_x3
+                            name: Modalità
+                        state_color: true
+                        card_mod:
+                          style: |
+                            ha-card {
+                              font-family: oswald;
+                              font-size: 20px;
+                              color: black;
+    
+                            }    
+                      - features:
+                          - style: slider
+                            type: numeric-input
+                        type: tile
+                        entity: input_number.scegli_temperatura_x3
+                        vertical: false
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_temperatura_x3
+                          target: {}
+                        show_entity_picture: true
+                        hide_state: false
+                        icon: mdi:content-save
+                        name: Imposta temperatura
+                        color: cyan
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }  
+                      - type: tile
+                        entity: input_text.valore_ip_locale_x3
+                        color: brown
+                        show_entity_picture: false
+                        state_content: state
+                        icon_tap_action:
+                          action: call-service
+                          service: ''
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }  
+          - icon: mdi:chart-line  
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  dismissable: true
+                  autoclose: false
+                  title: Grafico temperature nelle 6 ore
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - type: history-graph
+                        entities:
+                          - entity: sensor.temperatura_ambiente_rele1
+                          - entity: sensor.temperatura_impostata_rele1
+                          - entity: sensor.temperatura_ambiente_rele2
+                          - entity: sensor.temperatura_impostata_rele2
+                          - entity: sensor.temperatura_ambiente_rele3
+                          - entity: sensor.temperatura_impostata_rele3
+                        hours_to_show: 6
+                        title: Variazione Temperature in 6 ore        
   - type: vertical-stack
     cards:
       - type: entities
@@ -345,36 +364,7 @@ cards:
               font-family: oswald;
               font-size: 18px;
             }    
-  - type: entities
-    entities:
-      - type: button
-        name: Grafico temperature nelle 6 ore
-        icon: mdi:cog-box
-        tap_action:
-          action: fire-dom-event
-          browser_mod:
-            service: browser_mod.popup
-            data:
-              dismissable: true
-              autoclose: false
-              title: Grafico temperature nelle 6 ore
-              size: normal
-              right_button: Close
-              content:
-                type: custom:layout-card
-                layout_type: masonry
-                layout: {}
-                cards:
-                  - type: history-graph
-                    entities:
-                      - entity: sensor.temperatura_ambiente_rele1
-                      - entity: sensor.temperatura_impostata_rele1
-                      - entity: sensor.temperatura_ambiente_rele2
-                      - entity: sensor.temperatura_impostata_rele2
-                      - entity: sensor.temperatura_ambiente_rele3
-                      - entity: sensor.temperatura_impostata_rele3
-                    hours_to_show: 6
-                    title: Variazione Temperature in 6 ore
+
     card_mod:
       style: |
         ha-card {

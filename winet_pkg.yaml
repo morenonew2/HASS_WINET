@@ -219,7 +219,23 @@ rest:
           {% else %}
             {{ value_json.rpmExtractor | float(0) }}           
           {% endif %}           
- 
+######   VALORI ID   ##########################          
+  - scan_interval: 15
+    resource_template: http://{{ states("input_text.valore_ip_locale_stufa") }}/api/id 
+    sensor:
+      - name: "id_stove"
+        unique_id: id_stufa
+        value_template: > 
+          {{ value_json.id }} 
+      - name: "mac_stove"
+        unique_id: mac_stufa
+        value_template: > 
+          {{ value_json.mac }}   
+      - name: "staSsid_stove"
+        unique_id: staSsid_stufa
+        value_template: > 
+          {{ value_json.staSsid }} 
+          
 ###########################################################################
 #                      template switch
 ###########################################################################

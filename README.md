@@ -17,6 +17,7 @@ Il file configuration.yaml si trova nella cartella di configurazione di Homeassi
 **˂config˃ = /home/homeassistant/.homeassistant/ (p.es.  installazione tipica su Raspberry)**
 
 Configuration.yaml
+
 Aggiungere testo evidenziato:
 
 ```

@@ -9,6 +9,7 @@ I pkg seguenti vanno installati tramite HACS
 -	Card_mod
 -	Layout-card
 - Paper buttons row
+- Hui-elements
 -	Scheduler-card
 -	Scheduler (integrazione)
   

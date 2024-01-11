@@ -29,15 +29,15 @@ lovelace:
     lovelace-winet:
       mode: yaml
       title: WINET
-      icon: mdi:flower
+      icon: mdi:fire
       show_in_sidebar: true
       filename: winet_dashboard.yaml
     lovelace-x3relay:
       mode: yaml
-      title: X3Relay
-      icon: mdi:flower
+      title: WINET X3
+      icon: mdi:electric-switch
       show_in_sidebar: true
-      filename: winet_x3relay_dashboard.yaml
+      filename: winet_x3relay_dashboard.yaml   
 ```
  
 

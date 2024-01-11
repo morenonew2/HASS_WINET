@@ -394,6 +394,7 @@ rest:
             Riscaldamento
           {% endif %}
           
+          
 ######   VALORI ID   ##########################          
       - name: "device_wifi_x3"
         unique_id: device_wifi_x3
@@ -402,7 +403,11 @@ rest:
       - name: "device_cloud_x3"
         unique_id: device_cloud_x3
         value_template: > 
-          {{ value_json.device.cloud }}
+          {% if value_json.device.cloud == 2 %}
+            Connesso
+          {% else %}
+            Non connesso
+          {% endif %}            
       - name: "device_signal_x3"
         unique_id: device_signal_x3
         value_template: > 
@@ -427,7 +432,11 @@ rest:
       - name: "device_dhcp_x3"
         unique_id: device_dhcp_x3
         value_template: > 
-          {{ value_json.device.dhcp }}            
+          {% if value_json.device.dhcp == 1 %}
+            Automatico
+          {% else %}
+            Manuale    
+          {% endif %}             
 
 ############################################################################
 #                           template switch

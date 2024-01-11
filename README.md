@@ -73,6 +73,11 @@ Nella cartella packages (crearla in ˂config˃se non esiste)
 Copiare file winet_pkg.yaml
 
 Copiare file winet_x3relay_pkg.yaml
+
+### Immagini
+Copiare in ˂config˃
+
+la cartella www/Pictures/
  
 ### Risorse
 Impostazioni > Plance > Risorse

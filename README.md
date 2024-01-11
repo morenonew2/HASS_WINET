@@ -8,6 +8,7 @@ I pkg seguenti vanno installati tramite HACS
 -	Browser_mode
 -	Card_mod
 -	Layout-card
+- Paper buttons row
 -	Scheduler-card
 -	Scheduler (integrazione)
   

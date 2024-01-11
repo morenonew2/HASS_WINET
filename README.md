@@ -59,12 +59,15 @@ views:
  
 ### Package
 Nella cartella lovelace  (crearla in ˂config˃se non esiste)
+
 Copiare file winet_view.yaml
 
 Copiare file winet_x3relay_view.yaml
 
 Nella cartella packages (crearla in ˂config˃se non esiste)
+
 Copiare file winet_pkg.yaml
+
 Copiare file winet_x3relay_pkg.yaml
  
 ### Risorse

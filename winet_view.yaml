@@ -60,110 +60,133 @@ cards:
         row:
           entity: sensor.temperatura_acqua_impostata
       - type: divider
-      - type: button
-        name: Impostazioni
-        icon: mdi:cog-outline
-        tap_action:
-          action: fire-dom-event
-          browser_mod:
-            service: browser_mod.popup
-            data:
-              dismissable: true
-              autoclose: false
-              title: impostazioni
-              size: normal
-              right_button: Close
-              content:
-                type: custom:layout-card
-                layout_type: masonry
-                layout: {}
-                cards:
-                  - type: vertical-stack
-                    title: Impostazioni
+      - type: custom:paper-buttons-row
+        position: center
+        buttons:
+          - icon: hass:cog-outline
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  dismissable: true
+                  autoclose: false
+                  title: impostazioni
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
                     cards:
-                      - type: entities
+                      - type: vertical-stack
+                        title: Impostazioni
+                        cards:
+                          - type: entities
+                            entities:
+                              - entity: input_boolean.water_stufa
+                                name: Visual. temperatura acqua
+                              - entity: input_boolean.potenze_winet
+                                name: Gestisci valori potenza
+                              - entity: input_boolean.attiva_cronotermostato
+                          - features:
+                              - style: slider
+                                type: numeric-input
+                            type: tile
+                            entity: input_number.scegli_temperatura
+                            vertical: false
+                            icon_tap_action:
+                              action: call-service
+                              service: rest_command.set_temperatura
+                              target: {}
+                            show_entity_picture: true
+                            hide_state: false
+                            icon: mdi:content-save
+                            name: Temperatura impostata
+                            color: cyan
+                            card_mod:
+                              style:
+                                ha-tile-info$: |
+                                  .secondary {
+                                    font-size: 20px !important;
+                                  } 
+                                  .primary {
+                                    color: var(--entity-warning-color) !important;
+                                  }
+                          - features:
+                              - style: slider
+                                type: numeric-input
+                            type: tile
+                            entity: input_number.scegli_temperatura_water
+                            name: Temperatura acqua
+                            icon_tap_action:
+                              action: call-service
+                              service: rest_command.set_temperatura_water
+                              target: {}
+                            icon: mdi:content-save
+                            hide_state: false
+                            color: light-blue
+                            card_mod:
+                              style:
+                                ha-tile-info$: |
+                                  .secondary {
+                                    font-size: 20px !important;
+                                  } 
+                                  .primary {
+                                    color: var(--entity-warning-color) !important;
+                                  }
+                          - features:
+                              - type: select-options
+                            type: tile
+                            entity: input_select.seleziona_potenza
+                            name: Potenza funzionamento
+                            color: red
+                            icon: mdi:content-save
+                            vertical: false
+                            hide_state: true
+                            icon_tap_action:
+                              action: call-service
+                              service: rest_command.set_power
+                              target: {}
+                          - type: tile
+                            entity: input_text.valore_ip_locale_stufa
+                            color: brown
+                            show_entity_picture: false
+                            state_content: state
+                            icon_tap_action:
+                              action: call-service
+                              service: ''
+                            card_mod:
+                              style:
+                                ha-tile-info$: |
+                                  .secondary {
+                                    font-size: 20px !important;
+                                  } 
+                                  .primary {
+                                    color: var(--entity-warning-color) !important;
+                                  }   
+          - icon: mdi:chart-line
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  dismissable: true
+                  autoclose: false
+                  title: Grafico temperature nelle 6 ore
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - type: history-graph
                         entities:
-                          - entity: input_boolean.water_stufa
-                            name: Visual. temperatura acqua
-                          - entity: input_boolean.potenze_winet
-                            name: Gestisci valori potenza
-                          - entity: input_boolean.attiva_cronotermostato
-                      - features:
-                          - style: slider
-                            type: numeric-input
-                        type: tile
-                        entity: input_number.scegli_temperatura
-                        vertical: false
-                        icon_tap_action:
-                          action: call-service
-                          service: rest_command.set_temperatura
-                          target: {}
-                        show_entity_picture: true
-                        hide_state: false
-                        icon: mdi:content-save
-                        name: Temperatura impostata
-                        color: cyan
-                        card_mod:
-                          style:
-                            ha-tile-info$: |
-                              .secondary {
-                                font-size: 20px !important;
-                              } 
-                              .primary {
-                                color: var(--entity-warning-color) !important;
-                              }
-                      - features:
-                          - style: slider
-                            type: numeric-input
-                        type: tile
-                        entity: input_number.scegli_temperatura_water
-                        name: Temperatura acqua
-                        icon_tap_action:
-                          action: call-service
-                          service: rest_command.set_temperatura_water
-                          target: {}
-                        icon: mdi:content-save
-                        hide_state: false
-                        color: light-blue
-                        card_mod:
-                          style:
-                            ha-tile-info$: |
-                              .secondary {
-                                font-size: 20px !important;
-                              } 
-                              .primary {
-                                color: var(--entity-warning-color) !important;
-                              }
-                      - features:
-                          - type: select-options
-                        type: tile
-                        entity: input_select.seleziona_potenza
-                        name: Potenza funzionamento
-                        color: red
-                        icon: mdi:content-save
-                        vertical: false
-                        hide_state: true
-                        icon_tap_action:
-                          action: call-service
-                          service: rest_command.set_power
-                          target: {}
-                      - type: tile
-                        entity: input_text.valore_ip_locale_stufa
-                        color: brown
-                        show_entity_picture: false
-                        state_content: state
-                        icon_tap_action:
-                          action: call-service
-                          service: ''
-                        card_mod:
-                          style:
-                            ha-tile-info$: |
-                              .secondary {
-                                font-size: 20px !important;
-                              } 
-                              .primary {
-                                color: var(--entity-warning-color) !important;
-                              }   
+                          - entity: sensor.temperatura_aria
+                          - entity: sensor.temperatura_aria_impostata
+                        hours_to_show: 6
+                        title: Variazione Temperature in 6 ore
     title: FUNZIONAMENTO
     card_mod:
       style: |

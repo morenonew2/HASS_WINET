@@ -17,6 +17,11 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
+                data:
+                  style: |
+                    --popup-background-color:
+                      var(--secondary-background-color);
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);                
                   dismissable: true
                   autoclose: false
                   title: Impostazioni
@@ -96,6 +101,11 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
+                data:
+                  style: |
+                    --popup-background-color:
+                      var(--secondary-background-color);
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);                
                   dismissable: true
                   autoclose: false
                   title: Grafico temperature nelle 6 ore

@@ -3,158 +3,164 @@ homeassistant:
 #                           automation
 ############################################################################
 automation:
-  alias: Climate x3 on off r1
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - sensor.status_rele1
-      to: "ON"
-      id: x3_rele1_on
-    - platform: state
-      entity_id:
-        - sensor.status_rele1
-      to: "OFF"
-      id: x3_rele1_off
-  condition: []
-  action:
-    - if:
-        - condition: trigger
-          id:
-            - x3_rele1_on
-      then:
-        - service: climate.turn_on
-          target:
-            entity_id: climate.clima_r1
-          data: {}
-    - if:
-        - condition: trigger
-          id:
-            - x3_rele1_off
-      then:
-        - service: climate.turn_off
-          target:
-            entity_id: climate.clima_r1
-          data: {}
-  mode: single
-
-  alias: Climate x3 on off r2
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - sensor.status_rele2
-      to: "ON"
-      id: x3_rele2_on
-    - platform: state
-      entity_id:
-        - sensor.status_rele2
-      to: "OFF"
-      id: x3_rele2_off
-  condition: []
-  action:
-    - if:
-        - condition: trigger
-          id:
-            - x3_rele2_on
-      then:
-        - service: climate.turn_on
-          target:
-            entity_id: climate.clima_r2
-          data: {}
-    - if:
-        - condition: trigger
-          id:
-            - x3_rele2_off
-      then:
-        - service: climate.turn_off
-          target:
-            entity_id: climate.clima_r2
-          data: {}
-  mode: single
-
-  alias: Climate x3 on off r3
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - sensor.status_rele3
-      to: "ON"
-      id: x3_rele3_on
-    - platform: state
-      entity_id:
-        - sensor.status_rele3
-      to: "OFF"
-      id: x3_rele3_off
-  condition: []
-  action:
-    - if:
-        - condition: trigger
-          id:
-            - x3_rele3_on
-      then:
-        - service: climate.turn_on
-          target:
-            entity_id: climate.clima_r3
-          data: {}
-    - if:
-        - condition: trigger
-          id:
-            - x3_rele3_off
-      then:
-        - service: climate.turn_off
-          target:
-            entity_id: climate.clima_r3
-          data: {}
-  mode: single
-  
-  alias: Climate x3 r1
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - sensor.temperatura_impostata_rele1
-  condition: []
-  action:
-    - service: climate.set_temperature
-      data:
-        temperature: |
-          {{ states("sensor.temperatura_impostata_rele1") | float(1) }}
-      target:
-        entity_id: climate.clima_r1
-  mode: single
-
-  alias: Climate x3 r2
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - sensor.temperatura_impostata_rele2
-  condition: []
-  action:
-    - service: climate.set_temperature
-      data:
-        temperature: |
-          {{ states("sensor.temperatura_impostata_rele2") | float(1) }}
-      target:
-        entity_id: climate.clima_r2
-  mode: single  
-
-  alias: Climate x3 r3
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - sensor.temperatura_impostata_rele3
-  condition: []
-  action:
-    - service: climate.set_temperature
-      data:
-        temperature: |
-          {{ states("sensor.temperatura_impostata_rele3") | float(1) }}
-      target:
-        entity_id: climate.clima_r3
-  mode: single
+  - id: Climate x3 on off r1
+    alias: Climate x3 on off r1
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.status_rele1
+        to: "ON"
+        id: x3_rele1_on
+      - platform: state
+        entity_id:
+          - sensor.status_rele1
+        to: "OFF"
+        id: x3_rele1_off
+    condition: []
+    action:
+      - if:
+          - condition: trigger
+            id:
+              - x3_rele1_on
+        then:
+          - service: climate.turn_on
+            target:
+              entity_id: climate.clima_r1
+            data: {}
+      - if:
+          - condition: trigger
+            id:
+              - x3_rele1_off
+        then:
+          - service: climate.turn_off
+            target:
+              entity_id: climate.clima_r1
+            data: {}
+    mode: single
+    
+  - id: Climate x3 on off r2
+    alias: Climate x3 on off r2
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.status_rele2
+        to: "ON"
+        id: x3_rele2_on
+      - platform: state
+        entity_id:
+          - sensor.status_rele2
+        to: "OFF"
+        id: x3_rele2_off
+    condition: []
+    action:
+      - if:
+          - condition: trigger
+            id:
+              - x3_rele2_on
+        then:
+          - service: climate.turn_on
+            target:
+              entity_id: climate.clima_r2
+            data: {}
+      - if:
+          - condition: trigger
+            id:
+              - x3_rele2_off
+        then:
+          - service: climate.turn_off
+            target:
+              entity_id: climate.clima_r2
+            data: {}
+    mode: single
+    
+  - id: Climate x3 on off r3
+    alias: Climate x3 on off r3
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.status_rele3
+        to: "ON"
+        id: x3_rele3_on
+      - platform: state
+        entity_id:
+          - sensor.status_rele3
+        to: "OFF"
+        id: x3_rele3_off
+    condition: []
+    action:
+      - if:
+          - condition: trigger
+            id:
+              - x3_rele3_on
+        then:
+          - service: climate.turn_on
+            target:
+              entity_id: climate.clima_r3
+            data: {}
+      - if:
+          - condition: trigger
+            id:
+              - x3_rele3_off
+        then:
+          - service: climate.turn_off
+            target:
+              entity_id: climate.clima_r3
+            data: {}
+    mode: single
+    
+  - id: Climate x3 r1
+    alias: Climate x3 r1
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.temperatura_impostata_rele1
+    condition: []
+    action:
+      - service: climate.set_temperature
+        data:
+          temperature: |
+            {{ states("sensor.temperatura_impostata_rele1") | float(1) }}
+        target:
+          entity_id: climate.clima_r1
+    mode: single
+    
+  - id: Climate x3 r2
+    alias: Climate x3 r2
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.temperatura_impostata_rele2
+    condition: []
+    action:
+      - service: climate.set_temperature
+        data:
+          temperature: |
+            {{ states("sensor.temperatura_impostata_rele2") | float(1) }}
+        target:
+          entity_id: climate.clima_r2
+    mode: single   
+      
+  - id: Climate x3 r3  
+    alias: Climate x3 r3
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.temperatura_impostata_rele3
+    condition: []
+    action:
+      - service: climate.set_temperature
+        data:
+          temperature: |
+            {{ states("sensor.temperatura_impostata_rele3") | float(1) }}
+        target:
+          entity_id: climate.clima_r3
+    mode: single
 
 ############################################################################
 #                           input

@@ -2,10 +2,6 @@ title: WINET
 path: winet
 icon: mdi:stove
 theme: noctis-grey
-visible:
-  - user: 77f6a24a1c484f00999b4b1737d96720
-  - user: 8ff9755c127040e99772a3e644aac92d
-  - user: 8f17ad42385547abbff59ff1e2c51ed9
 badges: []
 cards:
   - type: custom:button-card

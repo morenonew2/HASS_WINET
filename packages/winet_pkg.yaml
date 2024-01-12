@@ -1,68 +1,72 @@
+homeassistant:
 ###########################################################################
 #                      NEWAPI WINET GESTIONE
 ###########################################################################
-homeassistant:
 automation:
-  alias: Climate Stufa set temp
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - sensor.temperatura_aria_impostata
-  condition: []
-  action:
-    - service: climate.set_temperature
-      data:
-        temperature: |
-          {{ states("sensor.temperatura_aria_impostata") | int }}
-      target:
-        entity_id: climate.piazzetta
-  mode: single
+  - id: Climate Stufa set temp
+    alias: Climate Stufa set temp
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.temperatura_aria_impostata
+    condition: []
+    action:
+      - service: climate.set_temperature
+        data:
+          temperature: |
+            {{ states("sensor.temperatura_aria_impostata") | int }}
+        target:
+          entity_id: climate.piazzetta
+    mode: single
+    
+  - id: WINET set potenza acceso 
+    alias: WINET set potenza acceso
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.potenze_winet
+        to: "on"
+    condition: []
+    action:
+      - service: input_select.set_options
+        data:
+          options:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+        target:
+          entity_id: input_select.seleziona_potenza
+    mode: single
+    
+  - id: WINET set potenza spento
+    alias: WINET set potenza spento
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.potenze_winet
+        to: "off"
+    condition: []
+    action:
+      - service: input_select.set_options
+        data:
+          options:
+            - 1
+            - 2
+            - 3
+            - 4
+        target:
+          entity_id: input_select.seleziona_potenza
+    mode: single  
 
-  alias: WINET set potenza acceso
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - input_boolean.potenze_winet
-      to: "on"
-  condition: []
-  action:
-    - service: input_select.set_options
-      data:
-        options:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          - 8
-          - 9
-      target:
-        entity_id: input_select.seleziona_potenza
-  mode: single
-
-  alias: WINET set potenza spento
-  description: ""
-  trigger:
-    - platform: state
-      entity_id:
-        - input_boolean.potenze_winet
-      to: "off"
-  condition: []
-  action:
-    - service: input_select.set_options
-      data:
-        options:
-          - 1
-          - 2
-          - 3
-          - 4
-      target:
-        entity_id: input_select.seleziona_potenza
-  mode: single  
 
 ###########################################################################
 #                      INPUT

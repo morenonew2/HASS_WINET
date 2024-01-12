@@ -1,397 +1,555 @@
-title: X3 Relay
-path: x3-relay
-type: custom:horizontal-layout
-layout:
-  column: 4
-theme: Graphite
-badges: []
-cards:
-  - type: entities
-    entities:
-      - type: custom:paper-buttons-row
-        position: center
-        buttons:
-          - icon: hass:cog-outline
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  style: |
-                    --popup-background-color:
-                      var(--secondary-background-color);
-                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
-                  dismissable: true
-                  autoclose: false
-                  title: Impostazioni
-                  size: normal
-                  right_button: Close
-                  content:
-                    type: custom:layout-card
-                    layout_type: masonry
-                    layout: {}
-                    cards:
-                      - type: entities
-                        entities:
-                          - entity: input_select.seleziona_rele
-                          - entity: switch.x3_on_off
-                          - entity: switch.winet_2
-                            name: Automatico - Manuale
-                          - entity: switch.x3_use_cable_tsense
-                            name: TSense - Cable
-                          - type: divider
-                          - entity: sensor.probe_temp_x3
-                            name: Temp sonda
-                          - entity: sensor.season_x3
-                            name: Modalità
-                        state_color: true
-                        card_mod:
-                          style: |
-                            ha-card {
-                              font-family: oswald;
-                              font-size: 20px;
-                              color: black;
+homeassistant:
+############################################################################
+#                           automation
+############################################################################
+automation:
+  alias: Climate x3 on off r1
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.status_rele1
+      to: "ON"
+      id: x3_rele1_on
+    - platform: state
+      entity_id:
+        - sensor.status_rele1
+      to: "OFF"
+      id: x3_rele1_off
+  condition: []
+  action:
+    - if:
+        - condition: trigger
+          id:
+            - x3_rele1_on
+      then:
+        - service: climate.turn_on
+          target:
+            entity_id: climate.clima_r1
+          data: {}
+    - if:
+        - condition: trigger
+          id:
+            - x3_rele1_off
+      then:
+        - service: climate.turn_off
+          target:
+            entity_id: climate.clima_r1
+          data: {}
+  mode: single
 
-                            }    
-                      - features:
-                          - style: slider
-                            type: numeric-input
-                        type: tile
-                        entity: input_number.scegli_temperatura_x3
-                        vertical: false
-                        icon_tap_action:
-                          action: call-service
-                          service: rest_command.set_temperatura_x3
-                          target: {}
-                        show_entity_picture: true
-                        hide_state: false
-                        icon: mdi:content-save
-                        name: Imposta temperatura
-                        color: cyan
-                        card_mod:
-                          style:
-                            ha-tile-info$: |
-                              .secondary {
-                                font-size: 20px !important;
-                              } 
-                              .primary {
-                                color: var(--entity-warning-color) !important;
-                              }  
-                      - type: tile
-                        entity: input_text.valore_ip_locale_x3
-                        color: brown
-                        show_entity_picture: false
-                        state_content: state
-                        icon_tap_action:
-                          action: call-service
-                          service: ''
-                        card_mod:
-                          style:
-                            ha-tile-info$: |
-                              .secondary {
-                                font-size: 20px !important;
-                              } 
-                              .primary {
-                                color: var(--entity-warning-color) !important;
-                              }  
-          - icon: mdi:list-status
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Statistiche
-                  style: >
-                    --popup-background-color:
-                    var(--secondary-background-color);
-                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
-                  content:
-                    type: vertical-stack
-                    cards:
-                      - type: entities
-                        entities:
-                          - entity: sensor.device_ssid_x3
-                          - entity: sensor.device_cloud_x3
-                          - entity: sensor.device_signal_x3
-                          - entity: sensor.device_ip_x3
-                          - entity: sensor.device_mask_x3
-                          - entity: sensor.device_gw_x3
-                          - entity: sensor.device_dhcp_x3
-          - icon: mdi:chart-line
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  style: |
-                    --popup-background-color:
-                      var(--secondary-background-color);
-                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
-                  dismissable: true
-                  autoclose: false
-                  title: Grafico temperature nelle 6 ore
-                  size: normal
-                  right_button: Close
-                  content:
-                    type: custom:layout-card
-                    layout_type: masonry
-                    layout: {}
-                    cards:
-                      - type: history-graph
-                        entities:
-                          - entity: sensor.temperatura_ambiente_rele1
-                          - entity: sensor.temperatura_impostata_rele1
-                          - entity: sensor.temperatura_ambiente_rele2
-                          - entity: sensor.temperatura_impostata_rele2
-                          - entity: sensor.temperatura_ambiente_rele3
-                          - entity: sensor.temperatura_impostata_rele3
-                        hours_to_show: 6
-                        title: Variazione Temperature in 6 ore
-  - type: vertical-stack
-    cards:
-      - type: entities
-        entities:
-          - entity: sensor.mode_rele1
-            name: Funzionamento
-            secondary_info: last-changed
-          - entity: sensor.status_rele1
-            icon: mdi:state-machine
-            secondary_info: none
-            name: Stato
-            card_mod:
-              style: |
-                :host {
-                  font-size: 20px;         
-                  {% if states('sensor.status_rele1') == "OFF" %}
-                  --paper-item-icon-color: red;
-                  color: red;
-                  {% else %}
-                  --paper-item-icon-color: green;
-                  color: green;
-                  {% endif %};
-                }
-          - type: divider
-          - entity: sensor.tsense_rele1_2
-            name: TSense Battery
-          - entity: sensor.use_tsense_rele1_2
-            name: 'Tipo sonda '
-            icon: mdi:thermometer-probe
-          - type: section
-            label: Temperature
-          - entity: sensor.temperatura_ambiente_rele1
-            name: Rilevata
-          - entity: sensor.temperatura_impostata_rele1
-            name: Impostata
-          - type: button
-            name: Andamento temperature nelle 24 ore
-            icon: mdi:chart-bell-curve-cumulative
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  dismissable: true
-                  autoclose: false
-                  title: Grafico temperature
-                  size: normal
-                  right_button: Close
-                  content:
-                    type: custom:layout-card
-                    layout_type: masonry
-                    layout: {}
-                    cards:
-                      - type: history-graph
-                        entities:
-                          - entity: sensor.temperatura_ambiente_rele1
-                          - entity: sensor.temperatura_impostata_rele1
-                        logarithmic_scale: false
-                        hours_to_show: 24
-        state_color: true
-        title: Rele1
-        show_header_toggle: false
-        card_mod:
-          style: |
-            ha-card {
-              font-family: oswald;
-              font-size: 16px;
-            }    
-      - type: thermostat
-        entity: climate.clima_r1
-        name: ' '
-        features:
-          - style: icons
-            hvac_modes:
-              - cool
-              - 'off'
-            type: climate-hvac-modes
-        show_current_as_primary: true
-        card_mod:
-          style: |
-            ha-card {
-              font-family: oswald;
-              font-size: 20px;
-            }    
-  - type: vertical-stack
-    cards:
-      - type: entities
-        entities:
-          - entity: sensor.mode_rele2
-            name: Funzionamento
-            secondary_info: last-updated
-          - entity: sensor.status_rele2
-            name: Stato
-            icon: mdi:state-machine
-            card_mod:
-              style: |
-                :host {
-                  font-size: 20px;         
-                  {% if states('sensor.status_rele2') == "OFF" %}
-                  --paper-item-icon-color: red;
-                  color: red;
-                  {% else %}
-                  --paper-item-icon-color: green;
-                  color: green;
-                  {% endif %};
-                }        
-          - entity: sensor.tsense_rele2_2
-            name: TSense Battery
-          - entity: sensor.use_tsense_rele2_2
-            name: Tipo sonda
-            icon: mdi:thermometer-probe
-          - type: section
-            label: Temperature
-          - entity: sensor.temperatura_ambiente_rele2
-            name: Rilevata
-          - entity: sensor.temperatura_impostata_rele2
-            name: Impostata
-          - type: button
-            name: Andamento temperature nelle 24 ore
-            icon: mdi:chart-bell-curve-cumulative
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  dismissable: true
-                  autoclose: false
-                  title: Grafico temperature
-                  size: normal
-                  right_button: Close
-                  content:
-                    type: custom:layout-card
-                    layout_type: masonry
-                    layout: {}
-                    cards:
-                      - type: history-graph
-                        entities:
-                          - entity: sensor.temperatura_ambiente_rele2
-                          - entity: sensor.temperatura_impostata_rele2
-                        logarithmic_scale: false
-                        hours_to_show: 24
-        state_color: true
-        title: Rele2
-        show_header_toggle: false
-        card_mod:
-          style: |
-            ha-card {
-              font-family: oswald;
-              font-size: 16px;
-            }        
-      - type: thermostat
-        entity: climate.clima_r2
-        features:
-          - type: climate-hvac-modes
-            hvac_modes:
-              - cool
-              - 'off'
-        name: '  '
-        show_current_as_primary: true
-        card_mod:
-          style: |
-            ha-card {
-              font-family: oswald;
-              font-size: 18px;
-            }    
-  - type: vertical-stack
-    cards:
-      - type: entities
-        entities:
-          - entity: sensor.mode_rele3
-            name: Funzionamento
-            secondary_info: last-updated
-          - entity: sensor.status_rele3
-            name: Stato
-            icon: mdi:state-machine
-            card_mod:
-              style: |
-                :host {
-                  font-size: 20px;         
-                  {% if states('sensor.status_rele3') == "OFF" %}
-                  --paper-item-icon-color: red;
-                  color: red;
-                  {% else %}
-                  --paper-item-icon-color: green;
-                  color: green;
-                  {% endif %};
-                }        
-          - entity: sensor.tsense_rele3_2
-            name: TSense Battery
-          - entity: sensor.use_tsense_rele3_2
-            name: Tipo sonda
-            icon: mdi:thermometer-probe
-          - type: section
-            label: Temperature
-          - entity: sensor.temperatura_ambiente_rele3
-            name: Rilevata
-          - entity: sensor.temperatura_impostata_rele3
-            name: Impostata
-          - type: button
-            name: Andamento temperature nelle 24 ore
-            icon: mdi:chart-bell-curve-cumulative
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  dismissable: true
-                  autoclose: false
-                  title: Grafico temperature
-                  size: normal
-                  right_button: Close
-                  content:
-                    type: custom:layout-card
-                    layout_type: masonry
-                    layout: {}
-                    cards:
-                      - type: history-graph
-                        entities:
-                          - entity: sensor.temperatura_ambiente_rele3
-                          - entity: sensor.temperatura_impostata_rele3
-                        logarithmic_scale: false
-                        hours_to_show: 24
-        state_color: true
-        title: Rele3
-        show_header_toggle: false
-        card_mod:
-          style: |
-            ha-card {
-              font-family: oswald;
-              font-size: 16px;
-            }        
-      - type: thermostat
-        entity: climate.clima_r3
-        features:
-          - style: icons
-            hvac_modes:
-              - heat
-              - 'off'
-              - cool
-            type: climate-hvac-modes
-        name: ' '
-        show_current_as_primary: true
-        card_mod:
-          style: |
-            ha-card {
-              font-family: oswald;
-              font-size: 18px;
-            }    
+  alias: Climate x3 on off r2
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.status_rele2
+      to: "ON"
+      id: x3_rele2_on
+    - platform: state
+      entity_id:
+        - sensor.status_rele2
+      to: "OFF"
+      id: x3_rele2_off
+  condition: []
+  action:
+    - if:
+        - condition: trigger
+          id:
+            - x3_rele2_on
+      then:
+        - service: climate.turn_on
+          target:
+            entity_id: climate.clima_r2
+          data: {}
+    - if:
+        - condition: trigger
+          id:
+            - x3_rele2_off
+      then:
+        - service: climate.turn_off
+          target:
+            entity_id: climate.clima_r2
+          data: {}
+  mode: single
+
+  alias: Climate x3 on off r3
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.status_rele3
+      to: "ON"
+      id: x3_rele3_on
+    - platform: state
+      entity_id:
+        - sensor.status_rele3
+      to: "OFF"
+      id: x3_rele3_off
+  condition: []
+  action:
+    - if:
+        - condition: trigger
+          id:
+            - x3_rele3_on
+      then:
+        - service: climate.turn_on
+          target:
+            entity_id: climate.clima_r3
+          data: {}
+    - if:
+        - condition: trigger
+          id:
+            - x3_rele3_off
+      then:
+        - service: climate.turn_off
+          target:
+            entity_id: climate.clima_r3
+          data: {}
+  mode: single
+  
+  alias: Climate x3 r1
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.temperatura_impostata_rele1
+  condition: []
+  action:
+    - service: climate.set_temperature
+      data:
+        temperature: |
+          {{ states("sensor.temperatura_impostata_rele1") | float(1) }}
+      target:
+        entity_id: climate.clima_r1
+  mode: single
+
+  alias: Climate x3 r2
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.temperatura_impostata_rele2
+  condition: []
+  action:
+    - service: climate.set_temperature
+      data:
+        temperature: |
+          {{ states("sensor.temperatura_impostata_rele2") | float(1) }}
+      target:
+        entity_id: climate.clima_r2
+  mode: single  
+
+  alias: Climate x3 r3
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.temperatura_impostata_rele3
+  condition: []
+  action:
+    - service: climate.set_temperature
+      data:
+        temperature: |
+          {{ states("sensor.temperatura_impostata_rele3") | float(1) }}
+      target:
+        entity_id: climate.clima_r3
+  mode: single
+
+############################################################################
+#                           input
+############################################################################
+input_boolean:
+  mode_x3:
+    name: "Auto Man X3" 
+    icon: mdi:toggle-switch
+
+
+input_text:
+  valore_ip_locale_x3:
+    name: "Valore IP Locale x3"
+    icon: mdi:ip
+    min: 0
+    max: 16
+
+input_select:
+  seleziona_rele:
+    name: "Seleziona rele"
+    icon: mdi:fire-circle
+    options:
+      - 1
+      - 2
+      - 3
+
+      
+input_number:      
+  scegli_temperatura_x3:
+    name: "Scegli temperatura"
+    icon: mdi:home-thermometer
+    unit_of_measurement: "°C"
+    min: -10
+    max: 40
+    step: 1
+
+############################################################################
+#                           rest command
+############################################################################
+rest_command:
+  set_off_man_x3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/{{ states("input_select.seleziona_rele") }}/status/0' # spegnimento manuale
+  set_on_man_x3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/{{ states("input_select.seleziona_rele") }}/status/1' # spegnimento manuale  
+
+  set_off_man_x3_r1:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/1/status/0' # spegnimento manuale
+  set_on_man_x3_r1:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/1/status/1' # spegnimento manuale  
+  set_off_man_x3_r2:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/2/status/0' # spegnimento manuale
+  set_on_man_x3_r2:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/2/status/1' # spegnimento manuale  
+  set_off_man_x3_r3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/3/status/0' # spegnimento manuale
+  set_on_man_x3_r3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/3/status/1' # spegnimento manuale  
+    
+  set_temperatura_x3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/{{ states("input_select.seleziona_rele") }}/setAir/{{ (states("input_number.scegli_temperatura_x3") | float(1))  }}' #input_number.scegli_temperatura
+  set_mod_man_x3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/{{ states("input_select.seleziona_rele") }}/modeAuto/0' #input_number.scegli_temperatura_water 
+  set_mod_auto_x3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/{{ states("input_select.seleziona_rele") }}/modeAuto/1'
+  set_usecable_x3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/{{ states("input_select.seleziona_rele") }}/useTsense/1'
+  set_usetsense_x3:
+    url: 'http://{{ states("input_text.valore_ip_locale_x3") }}/api/rele/{{ states("input_select.seleziona_rele") }}/useTsense/0'
+    
+############################################################################
+#                           rest sensor
+############################################################################
+rest:
+
+  - scan_interval: 2
+    resource_template: http://{{ states("input_text.valore_ip_locale_x3") }}/api/global 
+    sensor:
+#************  rele 1  ****************************    
+      - name: "STATUS RELE1"
+        unique_id: status_r1
+        value_template: >
+          {% if value_json.rele1.status == 0 %}
+            OFF
+          {% else %}
+            ON
+          {% endif %}
+      - name: "TEMPERATURA IMPOSTATA RELE1"
+        unique_id: temperatura_imp_r1 
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.rele1.setAir | float(2) }}   
+
+      - name: "TEMPERATURA AMBIENTE RELE1"
+        unique_id: temperatura_amb_r1 
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.rele1.air | float(2) }}   
+
+      - name: "MODE RELE1"
+        unique_id: mode_r1
+        value_template: >
+          {% if value_json.rele1.modeAuto == 0 %}
+            MANUALE
+          {% else %}
+            AUTOMATICO
+          {% endif %}
+
+      - name: "USE TSENSE RELE1"
+        unique_id: usetsense_r1
+        value_template: >
+          {% if value_json.rele1.useTsense == 1 %}  
+            Sonda cablata
+          {% else %}
+            Sonda TSense
+          {% endif %}  
+      - name: "TSENSE RELE1"
+        unique_id: tsense_r1
+        device_class: battery
+        unit_of_measurement: '%'
+        value_template: >
+          {{ value_json.rele1.tsense.battLevel * 100 / 3 | int }}
+          
+#************  rele 2  ****************************
+
+      - name: "STATUS RELE2"
+        unique_id: status_r2
+        value_template: >
+          {% if value_json.rele2.status == 0 %}
+            OFF
+          {% else %}
+            ON
+          {% endif %}
+          
+      - name: "TEMPERATURA IMPOSTATA RELE2"
+        unique_id: temperatura_imp_r2 
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.rele2.setAir | float(2) }}   
+
+      - name: "TEMPERATURA AMBIENTE RELE2"
+        unique_id: temperatura_amb_r2 
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.rele2.air | float(2) }}   
+
+      - name: "MODE RELE2"
+        unique_id: mode_r2
+        value_template: >
+          {% if value_json.rele2.modeAuto == 0 %}
+            MANUALE
+          {% else %}
+            AUTOMATICO
+          {% endif %}  
+
+      - name: "USE TSENSE RELE2"
+        unique_id: usetsense_r2
+        value_template: >
+          {% if value_json.rele2.useTsense == 1 %}  
+            Sonda cablata
+          {% else %}
+            Sonda TSense
+          {% endif %}
+          
+      - name: "TSENSE RELE2"
+        unique_id: tsense_r2
+        device_class: battery
+        unit_of_measurement: '%'
+        value_template: >
+          {{ value_json.rele2.tsense.battLevel * 100 / 3 | int }}
+
+#************  rele 3  ****************************  
+
+      - name: "STATUS RELE3"
+        unique_id: status_r3
+        value_template: >
+          {% if value_json.rele3.status == 0 %}
+            OFF
+          {% else %}
+            ON
+          {% endif %}
+          
+      - name: "TEMPERATURA IMPOSTATA RELE3"
+        unique_id: temperatura_imp_r3 
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.rele3.setAir | float(2) }}   
+
+      - name: "TEMPERATURA AMBIENTE RELE3"
+        unique_id: temperatura_amb_r3 
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.rele3.air | float(2) }}   
+
+      - name: "MODE RELE3"
+        unique_id: mode_r3
+        value_template: >
+          {% if value_json.rele3.modeAuto == 0 %}
+            MANUALE
+          {% else %}
+            AUTOMATICO
+          {% endif %}  
+
+      - name: "USE TSENSE RELE3"
+        unique_id: usetsense_r3
+        value_template: >
+          {% if value_json.rele3.useTsense == 1 %}  
+            Sonda cablata
+          {% else %}
+            Sonda TSense
+          {% endif %} 
+          
+      - name: "TSENSE RELE3"
+        unique_id: tsense_r3
+        device_class: battery
+        unit_of_measurement: '%'
+        value_template: >
+          {{ value_json.rele3.tsense.battLevel * 100 / 3 | int }}
+######   VALORI GLOBAL   ##########################
+      - name: "PROBE TEMP X3"
+        unique_id: probetemp_x3
+        device_class: temperature
+        unit_of_measurement: '°C'      
+        value_template: >
+          {{ value_json.global.probe }}
+      - name: "SEASON X3"
+        unique_id: season_x3
+        value_template: >
+          {% if value_json.global.season == 1 %}
+            Raffreddamento
+          {% else %}
+            Riscaldamento
+          {% endif %}
+          
+######   VALORI ID   ##########################          
+      - name: "device_wifi_x3"
+        unique_id: device_wifi_x3
+        value_template: > 
+          {{ value_json.device.wifi }} 
+      - name: "device_cloud_x3"
+        unique_id: device_cloud_x3
+        value_template: > 
+          {% if value_json.device.cloud == 2 %}
+            Connesso
+          {% else %}
+            Non connesso
+          {% endif %}            
+      - name: "device_signal_x3"
+        unique_id: device_signal_x3
+        value_template: > 
+          {{ value_json.device.signal }} 
+      - name: "device_ssid_x3"
+        unique_id: device_ssid_x3
+        value_template: > 
+          {{ value_json.device.ssid }}  
+          
+      - name: "device_ip_x3"
+        unique_id: device_ip_x3
+        value_template: > 
+          {{ value_json.device.ip }} 
+      - name: "device_gw_x3"
+        unique_id: device_gw_x3
+        value_template: > 
+          {{ value_json.device.gw }}
+      - name: "device_mask_x3"
+        unique_id: device_mask_x3
+        value_template: > 
+          {{ value_json.device.mask }} 
+      - name: "device_dhcp_x3"
+        unique_id: device_dhcp_x3
+        value_template: > 
+          {% if value_json.device.dhcp == 1 %}
+            Automatico
+          {% else %}
+            Manuale    
+          {% endif %}            
+############################################################################
+#                           template switch
+############################################################################          
+
+switch:
+  - platform: template
+    switches:
+      x3_use_cable_tsense:
+        friendly_name: "X3 Relay TSENSE/CABLE"
+        unique_id: x3_use_cable_tsense
+        turn_on:
+          service: rest_command.set_usetsense_x3
+        turn_off:
+          service: rest_command.set_usecable_x3
+      x3_auto_man:
+        friendly_name: "X3 Relay AUTO/MAN"
+        unique_id: x3_aut_man
+        value_template: |
+          {% set rl = "mode_rele"+states("input_select.seleziona_rele")  %}
+          {{ is_state('sensor.'+rl, 'MANUALE') }} 
+        turn_on:
+          service: rest_command.set_mod_man_x3
+        turn_off:
+          service: rest_command.set_mod_auto_x3
+      x3_on_off:
+        friendly_name: "X3 Relay ON/OFF"
+        unique_id: x3_on_off
+        value_template: |
+          {% set rl1 = "status_rele"+states("input_select.seleziona_rele")  %}
+          {{ is_state('sensor.'+rl1, 'ON') }} 
+        turn_on:
+          service: rest_command.set_on_man_x3
+        turn_off:
+          service: rest_command.set_off_man_x3 
+      x3_on_off_r1:
+        friendly_name: "X3 Relay ON/OFF rele1"
+        unique_id: x3_on_off_r1
+        value_template: |
+          {{ is_state('sensor.status_rele1', 'ON') }} 
+        turn_on:
+          service: rest_command.set_on_man_x3_r1
+        turn_off:
+          service: rest_command.set_off_man_x3_r1 
+      x3_on_off_r2:
+        friendly_name: "X3 Relay ON/OFF rele2"
+        unique_id: x3_on_off_r2
+        value_template: |
+          {{ is_state('sensor.status_rele2', 'ON') }} 
+        turn_on:
+          service: rest_command.set_on_man_x3_r2
+        turn_off:
+          service: rest_command.set_off_man_x3_r2 
+      x3_on_off_r3:
+        friendly_name: "X3 Relay ON/OFF rele3"
+        unique_id: x3_on_off_r3
+        value_template: |
+          {{ is_state('sensor.status_rele3', 'ON') }} 
+        turn_on:
+          service: rest_command.set_on_man_x3_r3
+        turn_off:
+          service: rest_command.set_off_man_x3_r3           
+############################################################################
+#                           template sensor
+############################################################################
+sensor:
+  - platform: template
+    sensors:
+      segnale_wifi_x3:
+        friendly_name: Intensità segnale wifi X3
+        value_template: '{{ states("sensor.device_signal_x3") }}' 
+        icon_template: |
+          {% set rssi_level = states("sensor.device_signal_x3") | int %}
+          {% if rssi_level == 4 %}
+            mdi:wifi-strength-4
+          {% elif rssi_level == 3 %}
+            mdi:wifi-strength-3
+          {% elif rssi_level == 2 %}
+            mdi:wifi-strength-2
+          {% elif rssi_level == 1 %}
+            mdi:wifi-strength-1
+          {% elif rssi_level == 0 %}
+            mdi:wifi-strength-outline
+          {% else %}
+            mdi:wifi-strength-off-outline
+          {% endif %}
+
+
+############################################################################
+#                           climate
+############################################################################
+
+climate:
+  - platform: generic_thermostat
+    name: clima_r1
+    heater: switch.x3_on_off_r1
+    target_sensor: sensor.temperatura_ambiente_rele1
+    ac_mode: true
+    min_temp: -10
+    max_temp: 40
+  - platform: generic_thermostat
+    name: clima_r2
+    heater: switch.x3_on_off_r2
+    target_sensor: sensor.temperatura_ambiente_rele2
+    ac_mode: true 
+    min_temp: -10
+    max_temp: 40    
+  - platform: generic_thermostat
+    name: clima_r3
+    heater: switch.x3_on_off_r3
+    target_sensor: sensor.temperatura_ambiente_rele3
+    ac_mode: true
+    min_temp: -10
+    max_temp: 40    
+ 
+
+          
+          

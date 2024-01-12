@@ -17,11 +17,10 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
-                data:
                   style: |
                     --popup-background-color:
                       var(--secondary-background-color);
-                    --dialog-backdrop-filter: blur(2em) brightness(0.75);                
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
                   dismissable: true
                   autoclose: false
                   title: Impostazioni
@@ -52,7 +51,7 @@ cards:
                               font-family: oswald;
                               font-size: 20px;
                               color: black;
-    
+
                             }    
                       - features:
                           - style: slider
@@ -95,17 +94,45 @@ cards:
                               .primary {
                                 color: var(--entity-warning-color) !important;
                               }  
-          - icon: mdi:chart-line  
+          - icon: mdi:list-status
             tap_action:
               action: fire-dom-event
               browser_mod:
                 service: browser_mod.popup
                 data:
+                  title: Parametri di rete
+                  style: >
+                    --popup-background-color:
+                    var(--secondary-background-color);
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: entities
+                        entities:
+                          - entity: sensor.device_ssid_x3
+                            icon: mdi:network-outline
+                          - entity: sensor.device_cloud_x3
+                            icon: mdi:cloud-check-outline
+                          - entity: sensor.segnale_wifi_x3
+                          - entity: sensor.device_ip_x3
+                            icon: mdi:ip-network
+                          - entity: sensor.device_mask_x3
+                            icon: mdi:check-network
+                          - entity: sensor.device_gw_x3
+                            icon: mdi:network
+                          - entity: sensor.device_dhcp_x3
+                            icon: mdi:network
+          - icon: mdi:chart-line
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
                 data:
                   style: |
                     --popup-background-color:
                       var(--secondary-background-color);
-                    --dialog-backdrop-filter: blur(2em) brightness(0.75);                
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
                   dismissable: true
                   autoclose: false
                   title: Grafico temperature nelle 6 ore
@@ -125,7 +152,7 @@ cards:
                           - entity: sensor.temperatura_ambiente_rele3
                           - entity: sensor.temperatura_impostata_rele3
                         hours_to_show: 6
-                        title: Variazione Temperature in 6 ore        
+                        title: Variazione Temperature in 6 ore
   - type: vertical-stack
     cards:
       - type: entities
@@ -150,9 +177,9 @@ cards:
                   {% endif %};
                 }
           - type: divider
-          - entity: sensor.tsense_rele1
+          - entity: sensor.tsense_rele1_2
             name: TSense Battery
-          - entity: sensor.use_tsense_rele1
+          - entity: sensor.use_tsense_rele1_2
             name: 'Tipo sonda '
             icon: mdi:thermometer-probe
           - type: section
@@ -232,9 +259,9 @@ cards:
                   color: green;
                   {% endif %};
                 }        
-          - entity: sensor.tsense_rele2
+          - entity: sensor.tsense_rele2_2
             name: TSense Battery
-          - entity: sensor.use_tsense_rele2
+          - entity: sensor.use_tsense_rele2_2
             name: Tipo sonda
             icon: mdi:thermometer-probe
           - type: section
@@ -313,9 +340,9 @@ cards:
                   color: green;
                   {% endif %};
                 }        
-          - entity: sensor.tsense_rele3
+          - entity: sensor.tsense_rele3_2
             name: TSense Battery
-          - entity: sensor.use_tsense_rele3
+          - entity: sensor.use_tsense_rele3_2
             name: Tipo sonda
             icon: mdi:thermometer-probe
           - type: section
@@ -374,10 +401,3 @@ cards:
               font-family: oswald;
               font-size: 18px;
             }    
-
-    card_mod:
-      style: |
-        ha-card {
-          font-family: oswald;
-          font-size: 18px;
-        }

@@ -1,8 +1,5 @@
 title: WINET
 path: winet
-visible:
-  - user: 8f17ad42385547abbff59ff1e2c51ed9
-  - user: a10f062277f841089791111ca11b8cf1
 theme: Graphite
 badges: []
 cards:
@@ -16,67 +13,48 @@ cards:
           - type: horizontal-stack
             cards:
               - type: picture-entity
+                image: /local/Pictures/stove_off.png
                 entity: sensor.status_stufa
                 show_name: false
-                show_state: false
-                image: /local/Pictures/stove_off.png
+                aspect_ratio: 120%
+                fit_mode: cover
+                card_mod:
+                  style: |
+                    ha-card {
+                      color: red;
+                    }
                 state_image:
-                  'ON': /local/Pictures/stove_on.png
-                  'OFF': /local/Pictures/stove_off.png
-                  FINAL CLEANING: /local/Pictures/stove_final.png
-                tap_action:
-                  action: fire-dom-event
-                  browser_mod:
-                    service: browser_mod.popup
-                    data:
-                      title: Statistiche
-                      style: >
-                        --popup-background-color:
-                        var(--secondary-background-color);
-
-                        --dialog-backdrop-filter: blur(2em)
-                        brightness(0.75);
-                      content:
-                        type: entities
-                        entities:
-                          - entity: sensor.stassid_stove
-                          - entity: sensor.mac_stove
-                          - entity: sensor.id_stove
+                  ACCESO: /local/Pictures/stove_on.png
+                  SPENTO: /local/Pictures/stove_off.png
+                  PULIZIA FINALE: /local/Pictures/stove_final.png
               - type: vertical-stack
                 cards:
                   - type: entities
                     entities:
-                      - entity: sensor.status_description_stufa
-                        icon: mdi:state-machine
-                        name: Stato
-                        secondary_info: none
-                        card_mod:
-                          style: |
-                            :host {
-                              font-size: 20px;         
-                              {% if states('sensor.status_description_stufa') == "OFF" %}
-                              --paper-item-icon-color: red;
-                              color: red;
-                              {% else %}
-                              --paper-item-icon-color: green;
-                              color: green;
-                              {% endif %};
-                            }
                       - type: custom:hui-element
                         card_type: gauge
                         entity: sensor.potenza_impostata
                         min: 1
                         max: 9
                         needle: true
-                        severity:
-                          green: 0
-                          yellow: 0
-                          red: 0
+                        segments:
+                          - from: 1
+                            color: '#FFA07A'
+                          - from: 2
+                            color: '#E9967A'
+                          - from: 3
+                            color: '#FA8072'
+                          - from: 4
+                            color: '#F08080'
+                          - from: 5
+                            color: '#CD5C5C'
+                          - from: 6
+                            color: '#C0392B'
                       - type: custom:hui-element
                         card_type: gauge
                         entity: sensor.n_giri_estrattore_fumi
                         unit: rpm
-                        needle: true
+                        needle: false
                         severity:
                           green: 1000
                           yellow: 1999
@@ -104,22 +82,23 @@ cards:
       - type: custom:hui-element
         card_type: vertical-stack
         cards:
-          - type: tile
-            entity: climate.piazzetta
-            show_entity_picture: true
-            entity_picture: /local/Pictures/P963.png
-            hide_state: false
-            color: accent
-            name: 'Termostato '
-            state_content:
-              - state
-              - current_temperature
-              - temperature
-            features:
-              - type: climate-hvac-modes
-                hvac_modes:
-                  - 'off'
-                  - heat
+          - type: picture-entity
+            entity: sensor.status_description_stufa
+            show_state: false
+            show_name: false
+            aspect_ratio: 20%
+            fit_mode: contain
+            image: /local/Pictures/onoffoff.png
+            state_image:
+              'ON': /local/Pictures/onoff.png
+              'OFF': /local/Pictures/onoffoff.png
+            tap_action:
+              action: call-service
+              confirmation:
+                text: Procedo?
+              service: switch.toggle
+              target:
+                entity_id: switch.winet
       - type: custom:paper-buttons-row
         position: center
         buttons:

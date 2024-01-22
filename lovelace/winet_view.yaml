@@ -1,6 +1,6 @@
 title: WINET
 path: winet
-theme: Graphite
+theme: default
 badges: []
 cards:
   - type: entities
@@ -27,6 +27,9 @@ cards:
                   ACCESO: /local/Pictures/stove_on.png
                   SPENTO: /local/Pictures/stove_off.png
                   PULIZIA FINALE: /local/Pictures/stove_final.png
+                  ALARM: /local/Pictures/stove_alarm.png
+                  UNKNOWN: /local/Pictures/stove_unknown.png
+                  UNMANAGED: /local/Pictures/stove_unmanaged.png
               - type: vertical-stack
                 cards:
                   - type: entities
@@ -80,13 +83,39 @@ cards:
           entity: sensor.temperatura_acqua_impostata
       - type: divider
       - type: custom:hui-element
+        card_type: conditional
+        conditions:
+          - condition: state
+            entity: input_boolean.attiva_cronotermostato
+            state: 'on'
+        card:
+          type: custom:scheduler-card
+          include:
+            - climate.piazzetta
+          exclude:
+            - climate.camera_matteo
+            - climate.comet_dect_1
+            - climate.matrimoniale
+          title: true
+          sort_by:
+            - state
+            - relative-time
+          display_options:
+            primary_info: '{entity}: {action}'
+            secondary_info:
+              - relative-time
+              - additional-tasks
+            icon: action
+            Name: Cronotermostato
+          time_step: 15
+      - type: custom:hui-element
         card_type: vertical-stack
         cards:
           - type: picture-entity
             entity: sensor.status_description_stufa
             show_state: false
             show_name: false
-            aspect_ratio: 20%
+            aspect_ratio: 30%
             fit_mode: contain
             image: /local/Pictures/onoffoff.png
             state_image:
@@ -129,7 +158,7 @@ cards:
                               - entity: input_boolean.water_stufa
                                 name: Visual. temperatura acqua
                               - entity: input_boolean.potenze_winet
-                                name: Gestisci valori potenza
+                                name: Aumenta valori potenza
                               - entity: input_boolean.attiva_cronotermostato
                           - features:
                               - style: slider
@@ -238,33 +267,4 @@ cards:
         ha-card {
           font-family: oswald;
           font-size: 20px;
-
         }
-  - type: vertical-stack
-    cards:
-      - type: conditional
-        conditions:
-          - condition: state
-            entity: input_boolean.attiva_cronotermostato
-            state: 'on'
-        card:
-          type: custom:scheduler-card
-          include:
-            - climate
-            - climate.piazzetta
-          exclude:
-            - climate.camera_matteo
-            - climate.comet_dect_1
-            - climate.matrimoniale
-          title: true
-          sort_by:
-            - state
-            - relative-time
-          display_options:
-            primary_info: '{entity}: {action}'
-            secondary_info:
-              - relative-time
-              - additional-tasks
-            icon: action
-            Name: Cronotermostato
-          time_step: 15

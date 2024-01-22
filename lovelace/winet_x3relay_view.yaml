@@ -3,7 +3,7 @@ path: x3-relay
 type: custom:horizontal-layout
 layout:
   column: 4
-theme: Graphite
+theme: default
 badges: []
 cards:
   - type: entities
@@ -35,7 +35,7 @@ cards:
                         entities:
                           - entity: input_select.seleziona_rele
                           - entity: switch.x3_on_off
-                          - entity: switch.winet
+                          - entity: switch.winet_2
                             name: Automatico - Manuale
                           - entity: switch.x3_use_cable_tsense
                             name: TSense - Cable
@@ -51,7 +51,6 @@ cards:
                               font-family: oswald;
                               font-size: 20px;
                               color: black;
-
                             }    
                       - features:
                           - style: slider
@@ -112,17 +111,24 @@ cards:
                         entities:
                           - entity: sensor.device_ssid_x3
                             icon: mdi:network-outline
+                            name: SSID
                           - entity: sensor.device_cloud_x3
                             icon: mdi:cloud-check-outline
+                            name: Cloud
                           - entity: sensor.segnale_wifi_x3
+                            name: Segnale WIFI
                           - entity: sensor.device_ip_x3
                             icon: mdi:ip-network
+                            name: IP
                           - entity: sensor.device_mask_x3
+                            name: MASK
                             icon: mdi:check-network
                           - entity: sensor.device_gw_x3
                             icon: mdi:network
+                            name: Gateway
                           - entity: sensor.device_dhcp_x3
                             icon: mdi:network
+                            name: DHCP
           - icon: mdi:chart-line
             tap_action:
               action: fire-dom-event
@@ -400,4 +406,4 @@ cards:
             ha-card {
               font-family: oswald;
               font-size: 18px;
-            }    
+            }  

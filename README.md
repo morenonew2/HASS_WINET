@@ -26,18 +26,7 @@ Aggiungere testo evidenziato:
 ```
 homeassistant:
   packages: !include_dir_named packages
-  customize:
-    # Add an entry for each entity that you want to overwrite.
-    sensor.temperatura_aria:
-      entity_picture: /local/Pictures/temp.png
-    sensor.temperatura_aria_impostata:
-      entity_picture: /local/Pictures/temp.png
-    sensor.temperatura_fumi:
-      entity_picture: /local/Pictures/temp-fumi.png    
-    sensor.temperatura_impostata:
-      entity_picture: /local/Pictures/temp-acqua.png
-    sensor.temperatura_acqua_impostata:
-      entity_picture: /local/Pictures/set-temp-acqua.png
+.....................
 lovelace:
   mode: storage
   dashboards:

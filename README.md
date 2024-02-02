@@ -5,11 +5,11 @@ Prerequisiti:
 -	HACS
   
 I pkg seguenti vanno installati tramite HACS
--	Browser_mode
--	Card_mod
+-	Browser_mod
+-	Card-mod
 -	Layout-card
 - Paper buttons row
-- Hui-elements
+- Hui-element
 -	Scheduler-card
 -	Scheduler (integrazione)
   

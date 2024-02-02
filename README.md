@@ -19,9 +19,7 @@ che, in una tipica installazione standard, si trova in:
 
 **˂config˃ = /home/homeassistant/.homeassistant/ (p.es.  installazione tipica su Raspberry)**
 
-Configuration.yaml
-
-Aggiungere testo evidenziato:
+Configuration.yaml:
 
 ```
 homeassistant:

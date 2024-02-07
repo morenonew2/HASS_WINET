@@ -59,12 +59,14 @@ views:
   - !include lovelace/winet_x3relay_view.yaml
 ```
  
-### Package
+### Lovelace
 Nella cartella lovelace  (crearla in ˂config˃se non esiste)
 
 Copiare file winet_view.yaml
 
 Copiare file winet_x3relay_view.yaml
+
+### Package
 
 Nella cartella packages (crearla in ˂config˃se non esiste)
 

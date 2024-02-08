@@ -74,7 +74,7 @@ cards:
           - entity: input_boolean.water_stufa
             state: 'on'
         row:
-          entity: sensor.temperatura_impostata
+          entity: sensor.temperatura_acqua
       - type: conditional
         conditions:
           - entity: input_boolean.water_stufa

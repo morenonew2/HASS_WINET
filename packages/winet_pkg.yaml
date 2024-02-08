@@ -277,7 +277,7 @@ switch:
 ###########################################################################
 climate:
   - platform: generic_thermostat
-    name: Piazzetta
+    name: Generic Stove
     unique_id: climate_piazzetta
     heater: switch.winet
     target_sensor: sensor.temperatura_aria

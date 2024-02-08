@@ -1,0 +1,363 @@
+title: Blower
+path: blower
+type: custom:horizontal-layout
+layout:
+  column: 4
+theme: default
+badges: []
+cards:
+  - type: entities
+    entities:
+      - type: custom:paper-buttons-row
+        position: center
+        buttons:
+          - icon: hass:cog-outline
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  style: |
+                    --popup-background-color:
+                      var(--secondary-background-color);
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
+                  dismissable: true
+                  autoclose: false
+                  title: Impostazioni
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - type: entities
+                        entities:
+                          - entity: input_select.seleziona_ventola
+                          - entity: switch.winet
+                            name: Automatico - Manuale
+                          - entity: switch.blower_use_cable_tsense
+                            name: TSense - Cable
+                          - type: divider
+                          - entity: sensor.probe_temp_blower
+                            name: Temp sonda
+                          - entity: sensor.season_blower
+                            name: Modalità
+                        state_color: true
+                        card_mod:
+                          style: |
+                            ha-card {
+                              font-family: oswald;
+                              font-size: 20px;
+                              color: black;
+                            }    
+                      - features:
+                          - style: slider
+                            type: numeric-input
+                        type: tile
+                        entity: input_number.scegli_temperatura_blower
+                        vertical: false
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_temperatura_blower
+                          target: {}
+                        show_entity_picture: true
+                        hide_state: false
+                        icon: mdi:content-save
+                        name: Imposta temperatura
+                        color: cyan
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }  
+                      - type: tile
+                        entity: input_text.valore_ip_locale_blower
+                        color: brown
+                        show_entity_picture: false
+                        state_content: state
+                        icon_tap_action:
+                          action: call-service
+                          service: ''
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }  
+          - icon: mdi:list-status
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Parametri di rete
+                  style: >
+                    --popup-background-color:
+                    var(--secondary-background-color);
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: entities
+                        entities:
+                          - entity: sensor.device_ssid_blower
+                            icon: mdi:network-outline
+                            name: SSID
+                          - entity: sensor.device_cloud_blower
+                            icon: mdi:cloud-check-outline
+                            name: Cloud
+                          - entity: sensor.segnale_wifi_blower
+                            name: Segnale WIFI
+                          - entity: sensor.device_ip_blower
+                            icon: mdi:ip-network
+                            name: IP
+                          - entity: sensor.device_mask_blower
+                            name: MASK
+                            icon: mdi:check-network
+                          - entity: sensor.device_gw_blower
+                            icon: mdi:network
+                            name: Gateway
+                          - entity: sensor.device_dhcp_blower
+                            icon: mdi:network
+                            name: DHCP
+          - icon: mdi:chart-line
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  style: |
+                    --popup-background-color:
+                      var(--secondary-background-color);
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
+                  dismissable: true
+                  autoclose: false
+                  title: Grafico temperature nelle 6 ore
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - type: history-graph
+                        entities:
+                          - entity: sensor.temperatura_rilevata_fan1
+                          - entity: sensor.temperatura_impostata_fan1
+                          - entity: sensor.temperatura_rilevata_fan2
+                          - entity: sensor.temperatura_impostata_fan2
+                          - entity: sensor.temperatura_rilevata_fan3
+                          - entity: sensor.temperatura_impostata_fan3
+                        hours_to_show: 6
+                        title: Variazione Temperature in 6 ore
+  - type: vertical-stack
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.mode_fan1
+            name: Funzionamento
+            secondary_info: last-changed
+          - entity: sensor.status_fan1
+            icon: mdi:state-machine
+            secondary_info: none
+            name: Stato
+            card_mod:
+              style: |
+                :host {
+                  font-size: 20px;         
+                  {% if states('sensor.status_fan1') == "OFF" %}
+                  --paper-item-icon-color: red;
+                  color: red;
+                  {% else %}
+                  --paper-item-icon-color: green;
+                  color: green;
+                  {% endif %};
+                }
+          - type: divider
+          - entity: sensor.tsense_fan1
+            name: TSense Battery
+          - entity: sensor.use_tsense_fan1
+            name: 'Tipo sonda '
+            icon: mdi:thermometer-probe
+          - type: section
+            label: Temperature
+          - entity: sensor.temperatura_rilevata_fan1_fan1
+            name: Rilevata
+          - entity: sensor.temperatura_impostata_fan1
+            name: Impostata
+          - type: button
+            name: Andamento temperature nelle 24 ore
+            icon: mdi:chart-bell-curve-cumulative
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  dismissable: true
+                  autoclose: false
+                  title: Grafico temperature
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - type: history-graph
+                        entities:
+                          - entity: sensor.temperatura_rilevata_fan1
+                          - entity: sensor.temperatura_impostata_fan1
+                        logarithmic_scale: false
+                        hours_to_show: 24
+        state_color: true
+        title: Fan1
+        show_header_toggle: false
+        card_mod:
+          style: |
+            ha-card {
+              font-family: oswald;
+              font-size: 16px;
+            }    
+ 
+  - type: vertical-stack
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.mode_fan2
+            name: Funzionamento
+            secondary_info: last-updated
+          - entity: sensor.status_fan2
+            name: Stato
+            icon: mdi:state-machine
+            card_mod:
+              style: |
+                :host {
+                  font-size: 20px;         
+                  {% if states('sensor.status_fan2') == "OFF" %}
+                  --paper-item-icon-color: red;
+                  color: red;
+                  {% else %}
+                  --paper-item-icon-color: green;
+                  color: green;
+                  {% endif %};
+                }        
+          - entity: sensor.tsense_fan2
+            name: TSense Battery
+          - entity: sensor.use_tsense_fan2
+            name: Tipo sonda
+            icon: mdi:thermometer-probe
+          - type: section
+            label: Temperature
+          - entity: sensor.temperatura_rilevata_fan2
+            name: Rilevata
+          - entity: sensor.temperatura_impostata_fan2
+            name: Impostata
+          - type: button
+            name: Andamento temperature nelle 24 ore
+            icon: mdi:chart-bell-curve-cumulative
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  dismissable: true
+                  autoclose: false
+                  title: Grafico temperature
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - type: history-graph
+                        entities:
+                          - entity: sensor.temperatura_rilevata_fan2
+                          - entity: sensor.temperatura_impostata_fan2
+                        logarithmic_scale: false
+                        hours_to_show: 24
+        state_color: true
+        title: Fan2
+        show_header_toggle: false
+        card_mod:
+          style: |
+            ha-card {
+              font-family: oswald;
+              font-size: 16px;
+            }        
+  
+  - type: vertical-stack
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.mode_fan3
+            name: Funzionamento
+            secondary_info: last-updated
+          - entity: sensor.status_fan3
+            name: Stato
+            icon: mdi:state-machine
+            card_mod:
+              style: |
+                :host {
+                  font-size: 20px;         
+                  {% if states('sensor.status_fan3') == "OFF" %}
+                  --paper-item-icon-color: red;
+                  color: red;
+                  {% else %}
+                  --paper-item-icon-color: green;
+                  color: green;
+                  {% endif %};
+                }        
+          - entity: sensor.tsense_fan3
+            name: TSense Battery
+          - entity: sensor.use_tsense_fan3
+            name: Tipo sonda
+            icon: mdi:thermometer-probe
+          - type: section
+            label: Temperature
+          - entity: sensor.temperatura_rilevata_fan3
+            name: Rilevata
+          - entity: sensor.temperatura_impostata_fan3
+            name: Impostata
+          - type: button
+            name: Andamento temperature nelle 24 ore
+            icon: mdi:chart-bell-curve-cumulative
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  dismissable: true
+                  autoclose: false
+                  title: Grafico temperature
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - type: history-graph
+                        entities:
+                          - entity: sensor.temperatura_rilevata_fan3
+                          - entity: sensor.temperatura_impostata_fan3
+                        logarithmic_scale: false
+                        hours_to_show: 24
+        state_color: true
+        title: Fan3
+        show_header_toggle: false
+        card_mod:
+          style: |
+            ha-card {
+              font-family: oswald;
+              font-size: 16px;
+            }        
+

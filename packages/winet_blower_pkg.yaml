@@ -26,18 +26,20 @@ input_text:
 input_select:
   seleziona_ventola:
     name: "Seleziona ventola"
-    icon: mdi:fire-circle
+    icon: mdi:fan
     options:
-      - 0
-      - 1
-      - 2
-      - 3
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+      - " "
   season_blower:
     name: "Seleziona stagione"
     options:
-      - 0
-      - 1 
-      - 2       
+      - "0"
+      - "1"
+      - "2"  
+      - " "
       
 input_number:      # temperatura desiderata per attivazione ventola
   scegli_temperatura_blower:
@@ -50,9 +52,11 @@ input_number:      # temperatura desiderata per attivazione ventola
   
   deltat_blower:
     name: "delta temp. riferimento"
-    icon: mdi:home-thermometer	
-	unit_of_measurement: "°C"
-	step: 0.1
+    icon: mdi:home-thermometer-outline
+    unit_of_measurement: "°C"
+    min: 2
+    max: 10
+    step: 0.1
   
   pot_min_blower:
     name: "Potenza minima erogata"
@@ -60,7 +64,7 @@ input_number:      # temperatura desiderata per attivazione ventola
     min: 25
     max: 65
     step: 1
-	
+
   pot_max_blower:
     name: "Potenza massima erogata"
     unit_of_measurement: "%"
@@ -80,7 +84,7 @@ input_number:      # temperatura desiderata per attivazione ventola
 ############################################################################
 rest_command:
   set_season_blower:
-    url: 'http://{{ states("input_text.valore_ip_locale_blower") }}/api/global/season/{{ (states("input_number.season_blower") }}' 
+    url: 'http://{{ states("input_text.valore_ip_locale_blower") }}/api/global/season/{{ states("input_select.season_blower") }}' 
 
   set_manspeed_blower:
     url: 'http://{{ states("input_text.valore_ip_locale_blower") }}/api/fan/{{ states("input_select.seleziona_ventola") }}/manualSpeed/{{ (states("input_number.manspeed_blower") | float(0))  }}' 
@@ -109,7 +113,7 @@ rest_command:
 rest:
 
   - scan_interval: 2
-    resource_template: http://{{ states("input_text.valore_ip_locale_b") }}/api/global 
+    resource_template: http://{{ states("input_text.valore_ip_locale_blower") }}/api/global 
     sensor:
 #************  fan 1  ****************************    
       - name: "STATUS FAN1"
@@ -117,6 +121,8 @@ rest:
         value_template: >
           {% if value_json.fan1.status == 0 %}
             OFF
+          {% else %}
+            {{ value_json.fan1.status }} %
           {% endif %}
           
       - name: "TEMPERATURA IMPOSTATA FAN1"
@@ -127,7 +133,7 @@ rest:
           {{ value_json.fan1.setAir | float(2) }}   
 
       - name: "TEMPERATURA RILEVATA FAN1"
-        unique_id: temperatura_amb_f1 
+        unique_id: temperatura_ril_f1 
         device_class: temperature
         unit_of_measurement: '°C'
         value_template: >
@@ -183,6 +189,8 @@ rest:
         value_template: >
           {% if value_json.fan2.status == 0 %}
             OFF
+          {% else %}
+            {{ value_json.fan2.status }} %            
           {% endif %}
           
       - name: "TEMPERATURA IMPOSTATA FAN2"
@@ -193,7 +201,7 @@ rest:
           {{ value_json.fan2.setAir | float(2) }}   
 
       - name: "TEMPERATURA RILEVATA FAN2"
-        unique_id: temperatura_amb_f2 
+        unique_id: temperatura_ril_f2 
         device_class: temperature
         unit_of_measurement: '°C'
         value_template: >
@@ -249,6 +257,8 @@ rest:
         value_template: >
           {% if value_json.fan3.status == 0 %}
             OFF
+          {% else %}
+            {{ value_json.fan3.status }} %
           {% endif %}
           
       - name: "TEMPERATURA IMPOSTATA FAN3"
@@ -259,7 +269,7 @@ rest:
           {{ value_json.fan3.setAir | float(2) }}   
 
       - name: "TEMPERATURA RILEVATA FAN3"
-        unique_id: temperatura_amb_f3 
+        unique_id: temperatura_ril_f3 
         device_class: temperature
         unit_of_measurement: '°C'
         value_template: >
@@ -328,7 +338,7 @@ rest:
         value_template: >
           {% if value_json.global.season == 0 %}
             Standby
-          {% elsif value_json.global.season == 1 %}
+          {% elif value_json.global.season == 1 %}
             Estate
           {% else %}
             Inverno          
@@ -338,9 +348,9 @@ rest:
         unique_id: typeprobe_blower
         value_template: >
           {% if value_json.global.useHighTempNtc == 0 %}
-             "Sonda 0÷100 °C"
+             Sonda 0÷100 °C
           {% else %}
-             "Sonda 45÷230 °C"          
+             Sonda 45÷230 °C      
           {% endif %}
           
       - name: "USE FIRE DETECT BLOWER"
@@ -373,9 +383,9 @@ rest:
         value_template: > 
           {% if value_json.device.cloud == 0 %}
             Idle
-          {% elsif value_json.device.cloud == 1 %}
+          {% elif value_json.device.cloud == 1 %}
             In Connessione...
-          {% elsif value_json.device.cloud == 2 %}
+          {% elif value_json.device.cloud == 2 %}
             Connesso
           {% else %}
             Non Connesso           
@@ -386,7 +396,7 @@ rest:
         value_template: > 
           {{ value_json.device.signal }}
           
-       - name: "device_ssid_blower"
+      - name: "device_ssid_blower"
         unique_id: device_ssid_blower
         value_template: > 
           {{ value_json.device.ssid }}           
@@ -432,8 +442,8 @@ switch:
         friendly_name: "BLOWER AUTO/MAN"
         unique_id: blower_aut_man
         value_template: |
-          {% set rl = "mode_fan"+states("input_select.seleziona_fan")  %}
-          {{ is_state('sensor.'+rl, 'MANUALE') }} 
+          {% set fn = "mode_fan"+states("input_select.seleziona_ventola")  %}
+          {{ is_state('sensor.'+fn, 'MANUALE') }} 
         turn_on:
           service: rest_command.set_mod_man_blower
         turn_off:
@@ -463,11 +473,3 @@ sensor:
           {% else %}
             mdi:wifi-strength-off-outline
           {% endif %}
-
-
-  
- 
-
-          
-          
-

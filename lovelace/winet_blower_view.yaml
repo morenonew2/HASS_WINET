@@ -11,7 +11,7 @@ cards:
       - type: custom:paper-buttons-row
         position: center
         buttons:
-          - icon: hass:cog-outline
+          - icon: mdi:cog
             tap_action:
               action: fire-dom-event
               browser_mod:
@@ -34,15 +34,10 @@ cards:
                       - type: entities
                         entities:
                           - entity: input_select.seleziona_ventola
-                          - entity: switch.winet
+                          - entity: switch.blower_auto_man
                             name: Automatico - Manuale
                           - entity: switch.blower_use_cable_tsense
                             name: TSense - Cable
-                          - type: divider
-                          - entity: sensor.probe_temp_blower
-                            name: Temp sonda
-                          - entity: sensor.season_blower
-                            name: Modalità
                         state_color: true
                         card_mod:
                           style: |
@@ -74,7 +69,144 @@ cards:
                               } 
                               .primary {
                                 color: var(--entity-warning-color) !important;
+                              } 
+
+                      - features:
+                          - style: slider
+                            type: numeric-input
+                        type: tile
+                        entity: input_number.deltat_blower
+                        vertical: false
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_deltat_blower
+                          target: {}
+                        show_entity_picture: true
+                        hide_state: false
+                        icon: mdi:content-save
+                        name: Imposta DELTA temp
+                        color: cyan
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }
+
+                      - features:
+                          - type: numeric-input
+                            style: slider
+                        type: tile
+                        entity: input_number.manspeed_blower
+                        vertical: false
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_manspeed_blower
+                          target: {}
+                        show_entity_picture: true
+                        hide_state: false
+                        icon: mdi:content-save
+                        name: Imposta velocità
+                        color: cyan
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }    
+
+                      - features:
+                          - style: slider
+                            type: numeric-input
+                        type: tile
+                        entity: input_number.pot_min_blower
+                        vertical: false
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_min_blower
+                          target: {}
+                        show_entity_picture: true
+                        hide_state: false
+                        icon: mdi:content-save
+                        name: Imposta potenza minima
+                        color: cyan
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
                               }  
+
+                      - features:
+                          - style: slider
+                            type: numeric-input
+                        type: tile
+                        entity: input_number.pot_max_blower
+                        vertical: false
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_max_blower
+                          target: {}
+                        show_entity_picture: true
+                        hide_state: false
+                        icon: mdi:content-save
+                        name: Imposta potenza massima
+                        color: cyan
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }           
+
+ 
+# GLOBAL
+          - icon: hass:cog-outline
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  style: |
+                    --popup-background-color:
+                      var(--secondary-background-color);
+                    --dialog-backdrop-filter: blur(2em) brightness(0.75);
+                  dismissable: true
+                  autoclose: false
+                  title: Impostazioni globali
+                  size: normal
+                  right_button: Close
+                  content:
+                    type: custom:layout-card
+                    layout_type: masonry
+                    layout: {}
+                    cards:
+                      - features:
+                          - type: select-options
+                        type: tile
+                        entity: input_select.season_blower
+                        name: Seleziona stagione
+                        color: cyan
+                        icon: mdi:content-save
+                        vertical: false
+                        hide_state: true
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_season_blower
+                          target: {}
+                           
                       - type: tile
                         entity: input_text.valore_ip_locale_blower
                         color: brown
@@ -92,6 +224,31 @@ cards:
                               .primary {
                                 color: var(--entity-warning-color) !important;
                               }  
+                      - type: entities
+                        entities:
+                          - entity: sensor.season_blower
+                            name: Stagionalità
+                            icon: mdi:calendar-clock
+                          - entity: sensor.probe_temp_blower
+                            name: Temp.ril. sonda cablata
+                          - entity: sensor.fire_probe_blower
+                            name: Temp. corpo riscald.
+                          - entity: sensor.type_probe_blower
+                            name: Tipo sonda
+                          - entity: sensor.use_fire_detect_blower
+                            name: Usa per abil. ventole
+                          - entity: sensor.fire_set_temp_blower
+                            name: Valore soglia
+                        state_color: true
+                        card_mod:
+                          style: |
+                            ha-card {
+                              font-family: oswald;
+                              font-size: 20px;
+                              color: black;
+                            }    
+
+                              
           - icon: mdi:list-status
             tap_action:
               action: fire-dom-event
@@ -128,6 +285,9 @@ cards:
                           - entity: sensor.device_dhcp_blower
                             icon: mdi:network
                             name: DHCP
+                          - entity: sensor.firmware_blower
+                            icon: mdi:chip
+                            name: Fw.
           - icon: mdi:chart-line
             tap_action:
               action: fire-dom-event
@@ -189,7 +349,7 @@ cards:
             icon: mdi:thermometer-probe
           - type: section
             label: Temperature
-          - entity: sensor.temperatura_rilevata_fan1_fan1
+          - entity: sensor.temperatura_rilevata_fan1
             name: Rilevata
           - entity: sensor.temperatura_impostata_fan1
             name: Impostata

@@ -35,7 +35,7 @@ cards:
                         entities:
                           - entity: input_select.seleziona_rele
                           - entity: switch.x3_on_off
-                          - entity: switch.winet
+                          - entity: switch.x3_auto_man
                             name: Automatico - Manuale
                           - entity: switch.x3_use_cable_tsense
                             name: TSense - Cable

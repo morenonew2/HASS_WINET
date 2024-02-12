@@ -1,7 +1,7 @@
 ## WINET-HA
 
-Installazione 
-Prerequisiti: 
+**Installazione prerequisiti:** 
+
 -	HACS
   
 I pkg seguenti vanno installati tramite HACS

@@ -52,7 +52,7 @@ lovelace:
  
 
 
-#### Nella cartella ˂config˃ creare  file 
+### Nella cartella ˂config˃ creare  file 
 winet_dashboard.yaml:
 ```
 title: WINET

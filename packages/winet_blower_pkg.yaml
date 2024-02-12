@@ -5,6 +5,52 @@ homeassistant:
 ############################################################################
 #                           automation
 ############################################################################
+automation:
+  - id: '1707722202123'
+    alias: Set season blower
+    description: ''
+    trigger:
+    - platform: state
+      entity_id:
+      - input_select.season_blower
+    condition: []
+    action:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: input_select.season_blower
+          state: 'standby'
+        sequence:
+        - service: input_text.set_value
+          metadata: {}
+          data:
+            value: '0'
+          target:
+            entity_id: input_text.stagione_blower
+      - conditions:
+        - condition: state
+          entity_id: input_select.season_blower
+          state: 'estate'
+        sequence:
+        - service: input_text.set_value
+          metadata: {}
+          data:
+            value: '1'
+          target:
+            entity_id: input_text.stagione_blower
+      - conditions:
+        - condition: state
+          entity_id: input_select.season_blower
+          state: 'inverno'
+        sequence:
+        - service: input_text.set_value
+          metadata: {}
+          data:
+            value: '2'
+          target:
+            entity_id: input_text.stagione_blower
+    mode: single
+
 
 
 ############################################################################
@@ -22,6 +68,10 @@ input_text:
     icon: mdi:ip
     min: 0
     max: 16
+  stagione_blower:
+    name: "stagione blower"
+    min: 1
+    max: 1 
 
 input_select:
   seleziona_ventola:
@@ -36,10 +86,9 @@ input_select:
   season_blower:
     name: "Seleziona stagione"
     options:
-      - "0"
-      - "1"
-      - "2"  
-      - " "
+      - "standby"
+      - "estate"
+      - "inverno"  
       
 input_number:      # temperatura desiderata per attivazione ventola
   scegli_temperatura_blower:
@@ -84,7 +133,7 @@ input_number:      # temperatura desiderata per attivazione ventola
 ############################################################################
 rest_command:
   set_season_blower:
-    url: 'http://{{ states("input_text.valore_ip_locale_blower") }}/api/global/season/{{ states("input_select.season_blower") }}' 
+    url: 'http://{{ states("input_text.valore_ip_locale_blower") }}/api/global/season/{{ states("input_text.stagione_blower") }}' 
 
   set_manspeed_blower:
     url: 'http://{{ states("input_text.valore_ip_locale_blower") }}/api/fan/{{ states("input_select.seleziona_ventola") }}/manualSpeed/{{ (states("input_number.manspeed_blower") | float(0))  }}' 
@@ -441,6 +490,7 @@ switch:
       blower_auto_man:
         friendly_name: "BLOWER AUTO/MAN"
         unique_id: blower_aut_man
+   
         value_template: |
           {% set fn = "mode_fan"+states("input_select.seleziona_ventola")  %}
           {{ is_state('sensor.'+fn, 'MANUALE') }} 
@@ -473,3 +523,11 @@ sensor:
           {% else %}
             mdi:wifi-strength-off-outline
           {% endif %}
+
+
+  
+ 
+
+          
+          
+

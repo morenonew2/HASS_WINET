@@ -13,7 +13,7 @@ I pkg seguenti vanno installati tramite HACS
 -	Scheduler-card
 -	Scheduler (integrazione)
 
-### configurazione
+### Configurazione
 
 Il file configuration.yaml si trova nella cartella di configurazione di Homeassistant
 
@@ -52,7 +52,7 @@ lovelace:
  
 
 
-### Nella cartella ˂config˃ creare  file 
+#### Nella cartella ˂config˃ creare  file 
 winet_dashboard.yaml:
 ```
 title: WINET

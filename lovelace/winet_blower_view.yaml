@@ -36,6 +36,7 @@ cards:
                           - entity: input_select.seleziona_ventola
                           - entity: switch.blower_auto_man
                             name: Automatico - Manuale
+                         
                           - entity: switch.blower_use_cable_tsense
                             name: TSense - Cable
                         state_color: true

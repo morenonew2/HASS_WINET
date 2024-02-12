@@ -12,7 +12,9 @@ I pkg seguenti vanno installati tramite HACS
 - Hui-element
 -	Scheduler-card
 -	Scheduler (integrazione)
-  
+
+### configurazione
+
 Il file configuration.yaml si trova nella cartella di configurazione di Homeassistant
 
 che, in una tipica installazione standard, si trova in:

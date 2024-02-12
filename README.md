@@ -1,6 +1,6 @@
 ## WINET-HA
 
-**Installazione prerequisiti:** 
+###Installazione prerequisiti:
 
 -	HACS
   

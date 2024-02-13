@@ -45,7 +45,7 @@ lovelace:
     lovelace-blower:
       mode: yaml
       title: WINET BLOWER
-      icon: mdi:electric-switch
+      icon: mdi:fan
       show_in_sidebar: true
       filename: winet_blower_dashboard.yaml   
 ```

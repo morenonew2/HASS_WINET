@@ -92,10 +92,6 @@ cards:
           type: custom:scheduler-card
           include:
             - climate.piazzetta
-          exclude:
-            - climate.camera_matteo
-            - climate.comet_dect_1
-            - climate.matrimoniale
           title: true
           sort_by:
             - state

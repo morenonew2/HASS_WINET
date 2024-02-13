@@ -91,7 +91,7 @@ cards:
         card:
           type: custom:scheduler-card
           include:
-            - climate.piazzetta
+            - climate.stove_generic
           title: true
           sort_by:
             - state

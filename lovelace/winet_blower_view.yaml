@@ -35,19 +35,19 @@ cards:
                         entities:
                           - entity: input_select.seleziona_ventola
                           - type: custom:template-entity-row
-                            entity: switch.x3_auto_man
+                            entity: switch.blower_auto_man
                             toggle: true
                             name: |
-                              {% if is_state('input_boolean.mode_x3', 'on')%} 
+                              {% if is_state('input_boolean.mode_blower', 'on')%} 
                                 Modalità manuale 
                               {% else %}
                                 Modalità automatica 
                               {% endif %}
                           - type: custom:template-entity-row
-                            entity: switch.x3_use_cable_tsense
+                            entity: switch.blower_use_cable_tsense
                             toggle: true
                             name: |
-                              {% if is_state('input_boolean.mode_cable_x3', 'on')%} 
+                              {% if is_state('input_boolean.mode_cable_blower', 'on')%} 
                                 Sonda esterna 
                               {% else %}
                                 Sonda TSense 

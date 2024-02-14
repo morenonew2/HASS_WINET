@@ -44,8 +44,15 @@ cards:
                               {% else %}
                                 Modalità automatica 
                               {% endif %}
-                          - entity: switch.x3_use_cable_tsense
-                            name: TSense - Cable
+                          - type: custom:template-entity-row
+                            entity: switch.x3_use_cable_tsense
+                            toggle: true
+                            name: |
+                              {% if is_state('input_boolean.mode_cable_x3', 'on')%} 
+                                Sonda esterna 
+                              {% else %}
+                                Sonda TSense 
+                              {% endif %}
                           - type: divider
                           - entity: sensor.probe_temp_x3
                             name: Temp sonda

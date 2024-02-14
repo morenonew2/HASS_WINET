@@ -2,6 +2,8 @@ homeassistant:
   customize_domain:
     switch:
       assumed_state: false
+  allowlist_external_dirs:
+    - /home/homeassistant/.homeassistant/www      
   customize:
     # Add an entry for each entity that you want to overwrite.
     sensor.temperatura_aria:

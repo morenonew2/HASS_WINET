@@ -35,8 +35,15 @@ cards:
                         entities:
                           - entity: input_select.seleziona_rele
                           - entity: switch.x3_on_off
-                          - entity: switch.x3_auto_man
-                            name: Automatico - Manuale
+                          - type: custom:template-entity-row
+                            entity: switch.x3_auto_man
+                            toggle: true
+                            name: |
+                              {% if is_state('input_boolean.mode_x3', 'on')%} 
+                                Modalità manuale 
+                              {% else %}
+                                Modalità automatica 
+                              {% endif %}
                           - entity: switch.x3_use_cable_tsense
                             name: TSense - Cable
                           - type: divider

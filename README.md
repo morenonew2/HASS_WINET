@@ -11,6 +11,7 @@ I pkg seguenti vanno installati tramite HACS
 - Paper buttons row
 - Hui-element
 -	Scheduler-card
+-	template-entity-row
 -	Scheduler (integrazione)
 
 ### Configurazione

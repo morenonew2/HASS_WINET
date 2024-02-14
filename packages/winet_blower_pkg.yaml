@@ -60,7 +60,9 @@ input_boolean:
   mode_blower:
     name: "Auto Man blower" 
     icon: mdi:toggle-switch
-
+  mode_cable_blower:
+    name: "Tsense Cable blower"
+    icon: mdi:toggle-switch
 
 input_text:
   valore_ip_locale_blower:

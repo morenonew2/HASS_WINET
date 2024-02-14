@@ -34,18 +34,30 @@ cards:
                       - type: entities
                         entities:
                           - entity: input_select.seleziona_ventola
-                          - entity: switch.blower_auto_man
-                            name: Automatico - Manuale
-                         
-                          - entity: switch.blower_use_cable_tsense
-                            name: TSense - Cable
+                          - type: custom:template-entity-row
+                            entity: switch.x3_auto_man
+                            toggle: true
+                            name: |
+                              {% if is_state('input_boolean.mode_x3', 'on')%} 
+                                Modalità manuale 
+                              {% else %}
+                                Modalità automatica 
+                              {% endif %}
+                          - type: custom:template-entity-row
+                            entity: switch.x3_use_cable_tsense
+                            toggle: true
+                            name: |
+                              {% if is_state('input_boolean.mode_cable_x3', 'on')%} 
+                                Sonda esterna 
+                              {% else %}
+                                Sonda TSense 
+                              {% endif %}
                         state_color: true
                         card_mod:
                           style: |
                             ha-card {
                               font-family: oswald;
                               font-size: 20px;
-                              color: black;
                             }    
                       - features:
                           - style: slider

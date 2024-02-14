@@ -492,14 +492,25 @@ switch:
       blower_auto_man:
         friendly_name: "BLOWER AUTO/MAN"
         unique_id: blower_aut_man
-   
         value_template: |
           {% set fn = "mode_fan"+states("input_select.seleziona_ventola")  %}
           {{ is_state('sensor.'+fn, 'MANUALE') }} 
         turn_on:
-          service: rest_command.set_mod_man_blower
+          - service: rest_command.set_mod_man_blower
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.mode_blower
         turn_off:
-          service: rest_command.set_mod_auto_blower
+          - service: rest_command.set_mod_auto_blower
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.mode_blower 
+        icon_template: >-
+          {% if is_state('input_boolean.mode_blower', 'on') %}
+            mdi:alpha-m-circle
+          {% else %}
+            mdi:alpha-a-circle
+          {% endif %} 
        
 ############################################################################
 #                           template sensor

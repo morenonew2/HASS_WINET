@@ -184,6 +184,12 @@ input_boolean:
   mode_x3:
     name: "Auto Man X3" 
     icon: mdi:toggle-switch
+  mode_cable_x3:
+    name: "Tsense Cable X3"
+    icon: mdi:toggle-switch
+  mode_on_off_x3:
+    name: "ON OFF X3"
+    icon: mdi:toggle-switch
 
 
 input_text:
@@ -249,7 +255,6 @@ rest_command:
 #                           rest sensor
 ############################################################################
 rest:
-
   - scan_interval: 2
     resource_template: http://{{ states("input_text.valore_ip_locale_x3") }}/api/global 
     sensor:
@@ -468,9 +473,21 @@ switch:
         friendly_name: "X3 Relay TSENSE/CABLE"
         unique_id: x3_use_cable_tsense
         turn_on:
-          service: rest_command.set_usetsense_x3
+          - service: rest_command.set_usetsense_x3
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.mode_cable_x3            
         turn_off:
-          service: rest_command.set_usecable_x3
+          - service: rest_command.set_usecable_x3
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.mode_cable_x3 
+        icon_template: >-
+          {% if is_state('input_boolean.mode_cable_x3', 'on') %}
+            mdi:thermometer-probe
+          {% else %}
+            mdi:arrow-top-right-bold-box-outline
+          {% endif %}               
       x3_auto_man:
         friendly_name: "X3 Relay AUTO/MAN"
         unique_id: x3_aut_man
@@ -478,9 +495,21 @@ switch:
           {% set rl = "mode_rele"+states("input_select.seleziona_rele")  %}
           {{ is_state('sensor.'+rl, 'MANUALE') }} 
         turn_on:
-          service: rest_command.set_mod_man_x3
+          - service: rest_command.set_mod_man_x3
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.mode_x3
         turn_off:
-          service: rest_command.set_mod_auto_x3
+          - service: rest_command.set_mod_auto_x3
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.mode_x3 
+        icon_template: >-
+          {% if is_state('input_boolean.mode_x3', 'on') %}
+            mdi:alpha-m-circle
+          {% else %}
+            mdi:alpha-a-circle
+          {% endif %}      
       x3_on_off:
         friendly_name: "X3 Relay ON/OFF"
         unique_id: x3_on_off
@@ -488,9 +517,21 @@ switch:
           {% set rl1 = "status_rele"+states("input_select.seleziona_rele")  %}
           {{ is_state('sensor.'+rl1, 'ON') }} 
         turn_on:
-          service: rest_command.set_on_man_x3
+          - service: rest_command.set_on_man_x3
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.mode_on_off_x3  
         turn_off:
-          service: rest_command.set_off_man_x3 
+          - service: rest_command.set_off_man_x3 
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.mode_on_off_x3  
+        entity_picture_template: |
+          {% if is_state('input_boolean.mode_on_off_x3', 'on') %}
+            /local/Pictures/switch-on.png
+          {% else %}
+            /local/Pictures/switch-off.png
+          {% endif %}              
       x3_on_off_r1:
         friendly_name: "X3 Relay ON/OFF rele1"
         unique_id: x3_on_off_r1

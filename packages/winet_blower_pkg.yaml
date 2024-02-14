@@ -486,9 +486,21 @@ switch:
         friendly_name: "BLOWER TSENSE/CABLE"
         unique_id: blower_use_cable_tsense
         turn_on:
-          service: rest_command.set_usetsense_blower
+          - service: rest_command.set_usetsense_blower
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.mode_cable_blower            
         turn_off:
-          service: rest_command.set_usecable_blower
+          - service: rest_command.set_usecable_blower
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.mode_cable_blower 
+        icon_template: >-
+          {% if is_state('input_boolean.mode_cable_blower', 'on') %}
+            mdi:thermometer-probe
+          {% else %}
+            mdi:arrow-top-right-bold-box-outline
+          {% endif %} 
       blower_auto_man:
         friendly_name: "BLOWER AUTO/MAN"
         unique_id: blower_aut_man

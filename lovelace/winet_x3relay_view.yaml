@@ -64,7 +64,6 @@ cards:
                             ha-card {
                               font-family: oswald;
                               font-size: 20px;
-                              color: black;
                             }    
                       - features:
                           - style: slider

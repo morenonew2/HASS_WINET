@@ -49,7 +49,7 @@ cards:
                             toggle: true
                             name: |
                               {% if is_state('input_boolean.mode_cable_x3', 'on')%} 
-                                Sonda esterna 
+                                Sonda cablata 
                               {% else %}
                                 Sonda TSense 
                               {% endif %}
@@ -64,7 +64,10 @@ cards:
                             ha-card {
                               font-family: oswald;
                               font-size: 20px;
-                            }    
+                            }   
+                      - type: markdown
+                        content: |
+                          Clicca sempre sul <ha-icon icon="mdi:content-save"></ha-icon> per confermare il valore impostato                            
                       - features:
                           - style: slider
                             type: numeric-input

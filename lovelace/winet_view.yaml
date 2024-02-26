@@ -10,6 +10,24 @@ cards:
       - type: custom:hui-element
         card_type: vertical-stack
         cards:
+          - type: custom:popup-card
+            card:
+              type: vertical-stack
+              cards:
+                - features:
+                    - type: select-options
+                  type: tile
+                  entity: input_select.seleziona_potenza
+                  icon: mdi:content-save
+                  name: Selez. potenza e premi sull'icona
+                  hide_state: true                  
+                  icon_tap_action:
+                    action: call-service
+                    service: rest_command.set_power
+                    target: {}
+            entity: sensor.potenza_impostata
+            size: normal
+            right_button: Close          
           - type: horizontal-stack
             cards:
               - type: picture-entity

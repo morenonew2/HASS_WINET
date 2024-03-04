@@ -1,4 +1,5 @@
 ## WINET-HA
+Package e view per i prodotti WINET (stufa da remoto), X3 Relay e Blower Cube
 
 ### Installazione prerequisiti:
 
@@ -21,6 +22,8 @@ Il file configuration.yaml si trova nella cartella di configurazione di Homeassi
 che, in una tipica installazione standard, si trova in:
 
 **˂config˃ = /home/homeassistant/.homeassistant/ (p.es.  installazione tipica su Raspberry)**
+
+**Attenzione! Installare solo il pkg, la view e ciò che serve solo per il dispositivo installato**
 
 Configuration.yaml:
 

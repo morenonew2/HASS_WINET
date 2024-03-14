@@ -113,6 +113,7 @@ Aggiungere
 
 ### ScreenShot
 
-![Alt text](/www/Pictures/stove_on.png?raw=true "Optional Title")
+![Stufa accesa](/www/Pictures/stove_on.png?raw=true "Status ACCESO")
 
+![Stufa accesa](/www/Pictures/stove_alarm.png?raw=true "Status ACCESO")
  

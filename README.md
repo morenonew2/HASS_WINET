@@ -111,4 +111,8 @@ Aggiungere
 
 **Tipo risorsa:** foglio di stile
 
+### ScreenShot
+
+![Alt text](/www/Pictures/stove_on.png?raw=true "Optional Title")
+
  

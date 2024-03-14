@@ -112,13 +112,13 @@ Aggiungere
 **Tipo risorsa:** foglio di stile
 
 ### ScreenShot
-Stato accesa
+
 ![Stufa](/www/Pictures/stove_on.png?raw=true "Status ACCESO")
-Stato allarme
+
 ![Stufa](/www/Pictures/stove_alarm.png?raw=true "Status ALARM")
-Stato non gestito
+
 ![Stufa](/www/Pictures/stove_unmanaged.png?raw=true "Status UNMANAGED")
-Stato sconosciuto
+
 ![Stufa alarm](/www/Pictures/stove_unknown.png?raw=true "Status UNKNOWN")
-Stato pulizia finale
+
 ![Stufa](/www/Pictures/stove_final.png?raw=true "Status PULIZIA FINALE")

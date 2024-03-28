@@ -113,6 +113,8 @@ Aggiungere
 
 ### ScreenShot
 
+![Stufa](/www/Pictures/card.png?raw=true "Card")
+
 ![Stufa](/www/Pictures/stove_on.png?raw=true "Status ACCESO")
 
 ![Stufa](/www/Pictures/stove_alarm.png?raw=true "Status ALARM")

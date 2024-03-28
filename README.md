@@ -111,6 +111,10 @@ Aggiungere
 
 **Tipo risorsa:** foglio di stile
 
+### Setup
+
+Una volta creata la card impostare l'indirizzo IP della scheda
+
 ### ScreenShot
 
 ![Stufa](/www/Pictures/card.png?raw=true "Card")

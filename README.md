@@ -115,7 +115,7 @@ Aggiungere
 
 Una volta creata la card impostare l'indirizzo IP della scheda
 
-![Stufa](/www/Pictures/winetsetup.png?raw=true "Setup")
+![Setup](/www/Pictures/WinetSetup.png?raw=true "Setup")
 
 ### ScreenShot
 

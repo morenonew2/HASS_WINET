@@ -9,8 +9,8 @@ I pkg seguenti vanno installati tramite HACS
 
   **INTEGRAZIONI** seguire istruzioni e poi riavviare HA
 -	Browser_mod 
--	Scheduler (integrazione)
-
+-	Scheduler
+  
   **Grafica Interfaccia**
 
 -	Card-mod

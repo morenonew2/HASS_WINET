@@ -1,7 +1,7 @@
-## WINET-HA
+# WINET-HA
 Package e view per i prodotti WINET (stufa da remoto), X3 Relay e Blower Cube
 
-### Installazione prerequisiti:
+## Installazione prerequisiti:
 
 -	HACS
   

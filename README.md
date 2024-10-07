@@ -10,7 +10,9 @@ I pkg seguenti vanno installati tramite HACS
   **INTEGRAZIONI**
 -	Browser_mod **(seguire bene le istruzioni di installazione)**
 -	Scheduler (integrazione)
+
   **Grafica Interfaccia**
+
 -	Card-mod
 -	Layout-card
 - Paper buttons row

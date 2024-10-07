@@ -7,8 +7,8 @@ Package e view per i prodotti WINET (stufa da remoto), X3 Relay e Blower Cube
   
 I pkg seguenti vanno installati tramite HACS
 
-  **INTEGRAZIONI**
--	Browser_mod **(seguire bene le istruzioni di installazione)**
+  **INTEGRAZIONI** seguire istruzioni e poi riavviare HA
+-	Browser_mod 
 -	Scheduler (integrazione)
 
   **Grafica Interfaccia**

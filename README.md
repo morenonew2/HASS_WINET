@@ -11,7 +11,7 @@ I pkg seguenti vanno installati tramite HACS
 -	Browser_mod 
 -	Scheduler
   
-  **Grafica Interfaccia** dopo installazioone aggiornare solo cache browser con CTRL-F5
+  **Grafica Interfaccia** dopo installazione aggiornare solo cache browser con CTRL-F5
 
 -	Card-mod
 -	Layout-card

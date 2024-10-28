@@ -109,7 +109,7 @@ cards:
         card:
           type: custom:scheduler-card
           include:
-            - climate.stove_generic
+            - climate.generic_stove
           title: "Crono termostato"
           sort_by:
             - state

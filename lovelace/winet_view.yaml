@@ -169,6 +169,8 @@ cards:
                         cards:
                           - type: entities
                             entities:
+                              - entity: input_text.valore_ip_locale_stufa
+                                name: Inserire IP scheda WINET                             
                               - entity: input_boolean.water_stufa
                                 name: Visual. temperatura acqua
                               - entity: input_boolean.potenze_winet
@@ -236,23 +238,7 @@ cards:
                               action: call-service
                               service: rest_command.set_power
                               target: {}
-                          - type: tile
-                            entity: input_text.valore_ip_locale_stufa
-                            color: brown
-                            show_entity_picture: false
-                            state_content: state
-                            icon_tap_action:
-                              action: call-service
-                              service: ''
-                            card_mod:
-                              style:
-                                ha-tile-info$: |
-                                  .secondary {
-                                    font-size: 20px !important;
-                                  } 
-                                  .primary {
-                                    color: var(--entity-warning-color) !important;
-                                  }   
+ 
           - icon: mdi:chart-line
             tap_action:
               action: fire-dom-event

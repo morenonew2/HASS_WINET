@@ -1,5 +1,5 @@
 # WINET-HA
-Package e view per i prodotti WINET (stufa da remoto), X3 Relay e Blower Cube
+Package e view per i prodotti WINET (stufa da remoto), X3 Relay e Blower Cube con API in locale
 
 NEWS: AGGIUNTO PKG PER GESTIONE CON API CLOUD (SOLO WINET stufa da remoto)
 

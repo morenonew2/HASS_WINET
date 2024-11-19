@@ -1,1 +1,264 @@
+homeassistant:
+  customize_domain:
+    switch:
+      assumed_state: false
+  allowlist_external_dirs:
+    - /home/homeassistant/.homeassistant/www      
+  customize:
+    # Add an entry for each entity that you want to overwrite.
+    sensor.temperatura_aria:
+      entity_picture: /local/Pictures/temp.png
+    sensor.temperatura_aria_impostata:
+      entity_picture: /local/Pictures/temp.png
+    sensor.temperatura_fumi:
+      entity_picture: /local/Pictures/temp-fumi.png    
+    sensor.temperatura_impostata:
+      entity_picture: /local/Pictures/temp-acqua.png
+    sensor.temperatura_acqua_impostata:
+      entity_picture: /local/Pictures/set-temp-acqua.png      
+###########################################################################
+#                      NEWAPI WINET GESTIONE
+###########################################################################
+automation:
+  - id: Climate Stufa set temp
+    alias: Climate Stufa set temp
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.temperatura_aria_impostata
+    condition: []
+    action:
+      - service: climate.set_temperature
+        data:
+          temperature: |
+            {{ states("sensor.temperatura_aria_impostata") | int }}
+        target:
+          entity_id: climate.piazzetta
+    mode: single
+    
+  - id: WINET set potenza acceso 
+    alias: WINET set potenza acceso
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.potenze_winet
+        to: "on"
+    condition: []
+    action:
+      - service: input_select.set_options
+        data:
+          options:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+        target:
+          entity_id: input_select.seleziona_potenza
+    mode: single
+    
+  - id: WINET set potenza spento
+    alias: WINET set potenza spento
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.potenze_winet
+        to: "off"
+    condition: []
+    action:
+      - service: input_select.set_options
+        data:
+          options:
+            - 1
+            - 2
+            - 3
+            - 4
+        target:
+          entity_id: input_select.seleziona_potenza
+    mode: single  
 
+
+###########################################################################
+#                      INPUT
+###########################################################################
+
+input_boolean:
+  attiva_cronotermostato:
+    name: "Attiva crono" 
+    icon: mdi:thermostat-box  
+  water_stufa:
+    name: "water stufa"
+    icon: mdi:thermometer-water
+  
+  potenze_winet:  
+    name: "modifica potenze"
+    icon: mdi:sun-wireless
+
+input_number:
+  scegli_temperatura:
+    name: "Scegli temperatura"
+    min: 10
+    max: 40
+    step: 1
+    mode: slider
+    unit_of_measurement: "°C"
+  scegli_temperatura_water:
+    name: "scegli temperatura water"
+    min: 40
+    max: 80
+    step: 1
+    mode: slider
+    icon: mdi:water-thermometer
+    unit_of_measurement: "°C"  
+
+input_select:
+  seleziona_potenza:
+    name: "Seleziona potenza"
+    icon: mdi:fire-circle
+    options:
+      - 1
+      - 2
+      - 3
+      - 4
+
+input_text:
+  valore_ip_locale_stufa:
+    name: "Valore API key"
+    min: 0
+    max: 100
+    icon: mdi:ip
+    mode: text
+
+
+    
+###########################################################################
+#                      REST COMMAND
+###########################################################################
+
+########  comandi in scrittura  ###############
+rest_command:
+  set_power:
+    #url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/power/{{ states("input_select.seleziona_potenza") }}' #input_select.seleziona_potenza
+    url: 'https://ws.cloudwinet.it/WiNetStove.svc/json/SetPower/{{ states("input_text.valore_ip_locale_stufa") }};{{ states("input_select.seleziona_potenza") }}'
+  set_temperatura:
+    #url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/temperature/air/{{ (states("input_number.scegli_temperatura") | int * 2)  }}' #input_number.scegli_temperatura
+    url: 'https://ws.cloudwinet.it/WiNetStove.svc/json/SetTemperature/{{ states("input_text.valore_ip_locale_stufa") }};{{ (states("input_number.scegli_temperatura") | int)  }}'
+  accensione_stufa:
+    #url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/status/1'
+    url: 'https://ws.cloudwinet.it/WiNetStove.svc/json/Ignit/{{ states("input_text.valore_ip_locale_stufa") }}'
+  spegnimento_stufa:
+    #url: 'http://{{ states("input_text.valore_ip_locale_stufa") }}/api/status/0'
+    url: 'https://ws.cloudwinet.it/WiNetStove.svc/json/Shutdown/{{ states("input_text.valore_ip_locale_stufa") }}'
+
+####    comandi in lettura ###################
+rest:
+######   VALORI GLOBAL   ##########################
+  - scan_interval: 15
+    ##resource_template: http://{{ states("input_text.valore_ip_locale_stufa") }}/api/global ##input_text.valore_ip_locale_stufa
+    resource_template: https://ws.cloudwinet.it/WiNetStove.svc/json/GetStatus/{{ states("input_text.valore_ip_locale_stufa") }} ##API Global
+    
+    sensor:
+      - name: "STATUS STUFA"
+        unique_id: status_stufa
+        value_template: >
+          {% set st = value_json.Status %}
+          {% if st == 0 %}
+            SPENTO
+          {% elif st == 1 %}
+            ATTESA FIAMMA
+          {% elif st == 2 %}
+            ATTESA FIAMMA
+          {% elif st == 3 %}
+            ACCESO
+          {% elif st == 4 %}
+            ACCESO
+          {% elif st == 5 %}
+            STAND-BY  
+          {% elif st == 6 %}
+            PULIZIA FINALE
+          {% elif st == 7 %}
+            PULIZIA BRACIERE
+          {% elif st == 8 %}
+            ALLARME
+          {% elif st == 9 %}
+            MEMORIA ALARME            
+          {% else %}
+            UNKNOWN
+          {% endif %}
+
+  - scan_interval: 15          
+    resource_template: https://ws.cloudwinet.it/WiNetStove.svc/json/GetPower/{{ states("input_text.valore_ip_locale_stufa") }} ##API Global
+    sensor:
+      - name: "Potenza impostata" ### potenza IMPOSTATA ###
+        unique_id: stufa_power_set
+        value_template: >
+          {{ value_json.Result }}    
+
+  - scan_interval: 15          
+    resource_template: https://ws.cloudwinet.it/WiNetStove.svc/json/GetActualTemperature/{{ states("input_text.valore_ip_locale_stufa") }} ##API Global
+    sensor:          
+      - name: "Temperatura aria " ### TEMPERATURA ARIA ### 
+        unique_id: temperatura_aria 
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.Result }}
+          
+  - scan_interval: 15          
+    resource_template: https://ws.cloudwinet.it/WiNetStove.svc/json/GetTemperature/{{ states("input_text.valore_ip_locale_stufa") }} ##API Global
+    sensor:          
+      - name: "Temperatura aria impostata" ### TEMPERATURA IMPOSTATA ###
+        unique_id: temperatura_aria_impostata      
+        device_class: temperature
+        unit_of_measurement: '°C'
+        value_template: >
+          {{ value_json.Result  }}  
+          
+
+          
+###########################################################################
+#                      template switch
+###########################################################################
+
+# ACCENSIONE SPEGNIMENTO
+switch:
+  - platform: template
+    switches:
+      winet:
+        friendly_name: "Stufa On/Off"
+        unique_id: stufa_on_off
+        value_template: "{{ is_state('sensor.status_stufa', 'ACCESO') }}"
+        turn_on:
+          service: rest_command.accensione_stufa
+        turn_off:
+          service: rest_command.spegnimento_stufa
+          
+###########################################################################
+#                            TERMOSTATO 
+###########################################################################
+climate:
+  - platform: generic_thermostat
+    name: Generic Stove
+    unique_id: climate_stove
+    heater: switch.winet
+    target_sensor: sensor.temperatura_aria
+    min_temp: 15
+    max_temp: 21
+    ac_mode: false
+    target_temp: 17
+    cold_tolerance: 0.3
+    hot_tolerance: 0
+    min_cycle_duration:
+      seconds: 5
+    keep_alive:
+      minutes: 3
+    initial_hvac_mode: "off"
+    away_temp: 16
+    precision: 0.1

@@ -186,9 +186,9 @@ rest:
           {% elif st == 7 %}
             PULIZIA BRACIERE
           {% elif st == 8 %}
-            ALLARME
+            ALARM
           {% elif st == 9 %}
-            MEMORIA ALARME            
+            ALARM
           {% else %}
             UNKNOWN
           {% endif %}

@@ -38,7 +38,7 @@ Configuration.yaml:
 ```
 homeassistant:
   packages: !include_dir_named packages
-.....................
+
 lovelace:
   mode: storage
   dashboards:

@@ -10,7 +10,7 @@ NEWS: AGGIUNTO PKG PER GESTIONE CON API CLOUD (SOLO WINET stufa da remoto)
 I pkg seguenti vanno installati tramite HACS
 
   **INTEGRAZIONI** seguire istruzioni e poi riavviare HA
--	Browser_mod 
+-	Browser_mod 2
 -	Scheduler
   
   **Grafica Interfaccia** dopo installazione aggiornare solo cache browser con CTRL-F5

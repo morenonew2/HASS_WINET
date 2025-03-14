@@ -85,6 +85,50 @@ cards:
         name: Ambiente
       - entity: sensor.temperatura_aria_impostata
         name: Impostazione temperatura
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              style: |
+                --popup-background-color:
+                  var(--secondary-background-color);
+                --dialog-backdrop-filter: blur(2em) brightness(0.75);
+              dismissable: true
+              autoclose: false
+              size: normal
+              right_button: Close
+              content:
+                type: custom:layout-card
+                layout_type: masonry
+                layout: {}
+                cards:
+                  - type: vertical-stack
+                    cards:
+                      - features:
+                          - style: slider
+                            type: numeric-input
+                        type: tile
+                        entity: input_number.scegli_temperatura
+                        vertical: false
+                        icon_tap_action:
+                          action: call-service
+                          service: rest_command.set_temperatura
+                          target: {}
+                        show_entity_picture: true
+                        hide_state: false
+                        icon: mdi:content-save
+                        name: Imposta temperatura e premi sull'icona
+                        color: cyan
+                        card_mod:
+                          style:
+                            ha-tile-info$: |
+                              .secondary {
+                                font-size: 20px !important;
+                              } 
+                              .primary {
+                                color: var(--entity-warning-color) !important;
+                              }
       - entity: sensor.temperatura_fumi
         name: Temperatura estrazione fumi
       - type: conditional

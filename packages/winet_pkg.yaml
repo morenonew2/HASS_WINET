@@ -12,7 +12,7 @@ homeassistant:
       entity_picture: /local/Pictures/temp.png
     sensor.temperatura_fumi:
       entity_picture: /local/Pictures/temp-fumi.png    
-    sensor.temperatura_impostata:
+    sensor.temperatura_acqua:
       entity_picture: /local/Pictures/temp-acqua.png
     sensor.temperatura_acqua_impostata:
       entity_picture: /local/Pictures/set-temp-acqua.png      

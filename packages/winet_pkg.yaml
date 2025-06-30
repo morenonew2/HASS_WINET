@@ -34,7 +34,7 @@ automation:
           temperature: |
             {{ states("sensor.temperatura_aria_impostata") | int }}
         target:
-          entity_id: climate.piazzetta
+          entity_id: climate.generic_stove
     mode: single
     
   - id: WINET set potenza acceso 

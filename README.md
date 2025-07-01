@@ -4,7 +4,7 @@ NEWS: AGGIUNTO PKG PER GESTIONE CON API CLOUD (SOLO WINET stufa da remoto)
 
 ## Installazione prerequisiti:
 
--	HACS
+-	[HACS](https://www.hacs.xyz/)
   
 I pkg seguenti vanno installati tramite HACS
 

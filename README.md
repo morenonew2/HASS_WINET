@@ -1,4 +1,4 @@
-# WINET-HA
+# WINET-HA stufasmart.it
 Package e view per i prodotti WINET (stufa da remoto)
 NEWS: AGGIUNTO PKG PER GESTIONE CON API CLOUD (SOLO WINET stufa da remoto)
 

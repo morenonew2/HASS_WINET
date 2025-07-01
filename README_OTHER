@@ -1,1 +1,123 @@
+# WINET-HA
+Package e view per i prodotti WINET: X3 Relay e Blower Cube con API in locale
+
+## Installazione prerequisiti:
+
+-	HACS
+  
+I pkg seguenti vanno installati tramite HACS
+
+  **INTEGRAZIONI** seguire istruzioni e poi riavviare HA
+-	Browser_mod 2
+-	Scheduler
+  
+  **Grafica Interfaccia** dopo installazione aggiornare solo cache browser con CTRL-F5
+
+-	Card-mod
+-	Layout-card
+- Paper buttons row
+- Hui-element
+-	Scheduler-card
+-	template-entity-row
+
+
+### Configurazione
+
+Il file configuration.yaml si trova nella cartella di configurazione di Homeassistant
+
+che, in una tipica installazione standard, si trova in:
+
+**˂config˃ = /home/homeassistant/.homeassistant/ (p.es.  installazione tipica su Raspberry)**
+
+**Attenzione! Installare solo il pkg, la view e ciò che serve solo per il dispositivo installato**
+
+Aggiungere le seguenti righe al prorprio configuration.yaml:
+
+```
+homeassistant:
+  packages: !include_dir_named packages
+
+lovelace:
+  mode: storage
+  dashboards:
+    lovelace-x3relay:
+      mode: yaml
+      title: WINET X3
+      icon: mdi:electric-switch
+      show_in_sidebar: true
+      filename: winet_x3relay_dashboard.yaml
+    lovelace-blower:
+      mode: yaml
+      title: WINET BLOWER
+      icon: mdi:fan
+      show_in_sidebar: true
+      filename: winet_blower_dashboard.yaml   
+```
+ 
+
+
+##### Nella cartella ˂config˃ creare  file 
+
+winet_x3relay_dashboard.yaml:
+```
+title: WINET X3
+views:
+  - !include lovelace/winet_x3relay_view.yaml
+```
+
+winet_blower_dashboard.yaml:
+```
+title: WINET BLOWER
+views:
+  - !include lovelace/winet_blower_view.yaml
+```
+ 
+### Lovelace
+Nella cartella lovelace  (crearla in ˂config˃se non esiste)
+
+Copiare file winet_x3relay_view.yaml
+
+Copiare file winet_blower_view.yaml
+
+### Package
+
+Nella cartella packages (crearla in ˂config˃se non esiste)
+
+Copiare file winet_x3relay_pkg.yaml
+
+Copiare file winet_blower_pkg.yaml
+
+### Immagini
+Copiare in ˂config˃
+
+la cartella www/Pictures/
+ 
+### Risorse
+Impostazioni > Plance > Risorse
+
+Aggiungere 
+
+**URL:** https://fonts.googleapis.com/css?family=Oswald
+
+**Tipo risorsa:** foglio di stile
+
+### Setup
+
+Una volta creata la card impostare l'indirizzo IP della scheda
+
+![Setup](/www/Pictures/SetupIPWinet.png?raw=true "Setup")
+
+### ScreenShot
+
+![Stufa](/www/Pictures/card.png?raw=true "Card")
+
+![Stufa](/www/Pictures/stove_on.png?raw=true "Status ACCESO")
+
+![Stufa](/www/Pictures/stove_alarm.png?raw=true "Status ALARM")
+
+![Stufa](/www/Pictures/stove_unmanaged.png?raw=true "Status UNMANAGED")
+
+![Stufa alarm](/www/Pictures/stove_unknown.png?raw=true "Status UNKNOWN")
+
+![Stufa](/www/Pictures/stove_final.png?raw=true "Status PULIZIA FINALE")
 

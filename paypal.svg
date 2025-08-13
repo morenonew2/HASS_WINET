@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <svg xmlns = "http://www.w3.org/2000/svg" width="100%" height="100%">
-    <rect x="25" y="25" width="250" height="200" />
-    <foreignObject x="50" y="50" width="200" height="150">
+    <rect x="25" y="25" width="250" height="200" fill="#ff0000" stroke="#000000"/>
+    <foreignObject x="50" y="50" width="250" height="200">
         <body xmlns="http://www.w3.org/1999/xhtml">
 			<form action="https://www.paypal.com/donate" method="post" target="_top">
 				<input type="hidden" name="hosted_button_id" value="VC4XWGBF8RDVQ" />

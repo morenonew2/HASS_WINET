@@ -92,7 +92,7 @@ Una volta creata la card impostare l'indirizzo IP della scheda
 
 ### Supporta il mio lavoro
 
-[![paypal](https://www.paypalobjects.com/it_IT/i/btn/btn_buynowCC_LG.gif)](https://www.paypal.com/donate/?business=mletardi@gmail.com&item_number=Importo+suggerito:+€+2.00+EUR&currency_code=EUR)
+[![paypal](https://www.paypalobjects.com/it_IT/i/btn/btn_donate_SM.gif)](https://www.paypal.com/donate/?business=mletardi@gmail.com&item_number=Importo+suggerito:+€+2.00+EUR&currency_code=EUR)
 
 <form action="https://www.paypal.com/donate" method="post" target="_top">
 <input type="hidden" name="hosted_button_id" value="VC4XWGBF8RDVQ" />

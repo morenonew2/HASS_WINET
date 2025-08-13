@@ -92,7 +92,7 @@ Una volta creata la card impostare l'indirizzo IP della scheda
 
 ### Supporto
 
-[![paypal](https://www.paypalobjects.com/it_IT/i/btn/btn_buynowCC_LG.gif)](https://www.paypal.com/donate/?business=mletardi@gmail.com&currency_code=EUR)
+[![paypal](https://www.paypalobjects.com/it_IT/i/btn/btn_buynowCC_LG.gif)](https://www.paypal.com/donate/?business=mletardi@gmail.com&item_number=Suggested+Price:+€2.00+EUR&currency_code=EUR)
 
 
 ![Setup](/www/Pictures/SetupIPWinet.png?raw=true "Setup")

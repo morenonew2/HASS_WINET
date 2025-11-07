@@ -32,7 +32,7 @@ che, in una tipica installazione standard, si trova in:
 
 **Attenzione! Installare solo il pkg, la view e ciò che serve solo per il dispositivo installato**
 
-Aggiungere le seguenti righe al prorprio configuration.yaml:
+Aggiungere le seguenti righe al proprio configuration.yaml:
 
 ```
 homeassistant:

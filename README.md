@@ -30,7 +30,7 @@ che, in una tipica installazione standard, si trova in:
 
 **˂config˃ = /home/homeassistant/.homeassistant/ (p.es.  installazione tipica su Raspberry)**
 
-** ATTENZIONE! L'INSTALLAZIONE FA FATTA A PARTIRE DALLA CARTELLA DOVE SI TROVA IL FILE CONFIGURATION.YAML **
+****ATTENZIONE! L'INSTALLAZIONE FA FATTA A PARTIRE DALLA CARTELLA DOVE SI TROVA IL FILE CONFIGURATION.YAML****
 
 **Attenzione! Installare solo il pkg, la view e ciò che serve solo per il dispositivo installato**
 

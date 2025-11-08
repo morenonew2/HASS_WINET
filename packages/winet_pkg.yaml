@@ -1,3 +1,6 @@
+####################################################################
+#        da usare SOLO per collegamento locale no CLOUD            #
+####################################################################
 homeassistant:
   customize_domain:
     switch:
@@ -296,3 +299,4 @@ climate:
     #initial_hvac_mode: "off" risolto problema di spegnimento al riavvio
     away_temp: 16
     precision: 0.1
+

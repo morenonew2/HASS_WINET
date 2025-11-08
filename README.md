@@ -6,7 +6,7 @@ NEWS: AGGIUNTO PKG PER GESTIONE CON API CLOUD (SOLO WINET stufa da remoto)
 
 -	[HACS](https://www.hacs.xyz/)
   
-I pkg seguenti vanno installati tramite HACS
+Le seguenti integrazioni e interfacce vanno installate tramite HACS
 
   **INTEGRAZIONI** seguire istruzioni e poi riavviare HA
 -	Browser_mod 2 (fate molta attenzione a questa installazione)

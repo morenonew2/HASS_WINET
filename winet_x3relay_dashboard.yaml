@@ -1,3 +1,0 @@
-title: WINET X3
-views:
-  - !include lovelace/winet_x3relay_view.yaml

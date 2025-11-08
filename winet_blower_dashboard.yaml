@@ -1,4 +1,0 @@
-title: WINET BLOWER
-views: 
-views:
-  - !include lovelace/winet_blower_view.yaml

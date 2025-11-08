@@ -9,7 +9,7 @@ NEWS: AGGIUNTO PKG PER GESTIONE CON API CLOUD (SOLO WINET stufa da remoto)
 I pkg seguenti vanno installati tramite HACS
 
   **INTEGRAZIONI** seguire istruzioni e poi riavviare HA
--	Browser_mod 2
+-	Browser_mod 2 (fate molta attenzione a questa installazione)
 -	Scheduler
   
   **Grafica Interfaccia** dopo installazione aggiornare solo cache browser con CTRL-F5
@@ -88,7 +88,7 @@ Aggiungere
 
 ### Setup
 
-Una volta creata la card impostare l'indirizzo IP della scheda
+Una volta creata la card impostare l'indirizzo IP della scheda e poi fate refresh delle entità REST e RESTFUL
 
 ### Supporta il mio lavoro
 

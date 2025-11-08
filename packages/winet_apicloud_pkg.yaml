@@ -1,3 +1,7 @@
+####################################################################
+#        da usare SOLO per collegamento in cloud no locale         #
+####################################################################
+
 homeassistant:
   customize_domain:
     switch:

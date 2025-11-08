@@ -32,8 +32,6 @@ che, in una tipica installazione standard, si trova in:
 
 ****ATTENZIONE! L'INSTALLAZIONE FA FATTA A PARTIRE DALLA CARTELLA DOVE SI TROVA IL FILE CONFIGURATION.YAML****
 
-**Attenzione! Installare solo il pkg, la view e ciò che serve solo per il dispositivo installato**
-
 Aggiungere le seguenti righe al proprio configuration.yaml:
 
 ```

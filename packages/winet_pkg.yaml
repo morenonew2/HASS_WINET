@@ -23,6 +23,21 @@ homeassistant:
 #                      NEWAPI WINET GESTIONE
 ###########################################################################
 automation:
+  - id: WINET Notifica permanente
+    alias: WINET Notifica permanente
+    description: ""
+    triggers:
+      - trigger: state
+        entity_id:
+          - sensor.status_stufa
+    conditions: []
+    actions:
+      - action: notify.persistent_notification
+        metadata: {}
+        data:
+          message: "{{ states("sensor.status_description_stufa") }}"
+          title: WINET
+    mode: single
   - id: Climate Stufa set temp
     alias: Climate Stufa set temp
     description: ""
@@ -298,5 +313,6 @@ climate:
     #initial_hvac_mode: "off" risolto problema di spegnimento al riavvio
     away_temp: 16
     precision: 0.1
+
 
 

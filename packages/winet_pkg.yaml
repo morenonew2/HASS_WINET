@@ -265,17 +265,16 @@ rest:
 ###########################################################################
 
 # ACCENSIONE SPEGNIMENTO
-switch:
-  - platform: template
-    switches:
-      winet:
-        friendly_name: "Stufa On/Off"
-        unique_id: stufa_on_off
-        value_template: "{{ is_state('sensor.status_stufa', 'ACCESO') }}"
-        turn_on:
-          service: rest_command.accensione_stufa
-        turn_off:
-          service: rest_command.spegnimento_stufa
+template:
+- switch:
+  - unique_id: stufa_on_off
+    turn_on:
+    - action: rest_command.accensione_stufa
+    turn_off:
+    - action: rest_command.spegnimento_stufa
+    default_entity_id: switch.winet
+    name: Stufa On/Off
+    state: '{{ is_state(''sensor.status_stufa'', ''ACCESO'') }}'
           
 ###########################################################################
 #                            TERMOSTATO 
@@ -299,4 +298,5 @@ climate:
     #initial_hvac_mode: "off" risolto problema di spegnimento al riavvio
     away_temp: 16
     precision: 0.1
+
 

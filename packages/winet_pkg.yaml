@@ -35,7 +35,7 @@ automation:
       - action: notify.persistent_notification
         metadata: {}
         data:
-          message: "{{ states("sensor.status_description_stufa") }}"
+          message: "{{ states(\"sensor.status_description_stufa\") }}"
           title: WINET
     mode: single
   - id: Climate Stufa set temp
@@ -313,6 +313,7 @@ climate:
     #initial_hvac_mode: "off" risolto problema di spegnimento al riavvio
     away_temp: 16
     precision: 0.1
+
 
 
 

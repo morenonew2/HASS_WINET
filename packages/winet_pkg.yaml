@@ -30,7 +30,11 @@ automation:
       - trigger: state
         entity_id:
           - sensor.status_stufa
-    conditions: []
+    conditions:
+      - condition: state
+        entity_id: input_boolean.attiva_not_per
+        state:
+          - "on"
     actions:
       - action: notify.persistent_notification
         metadata: {}
@@ -114,11 +118,13 @@ input_boolean:
   water_stufa:
     name: "water stufa"
     icon: mdi:thermometer-water
-  
   potenze_winet:  
     name: "modifica potenze"
     icon: mdi:sun-wireless
-
+  attiva_not_per:
+    name: "Attiva notifiche persistenti"
+    icon: mdi:information-variant-box
+    initial: "on"
 input_number:
   scegli_temperatura:
     name: "Scegli temperatura"
@@ -313,6 +319,7 @@ climate:
     #initial_hvac_mode: "off" risolto problema di spegnimento al riavvio
     away_temp: 16
     precision: 0.1
+
 
 
 

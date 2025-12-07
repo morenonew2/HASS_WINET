@@ -220,6 +220,7 @@ cards:
                               - entity: input_boolean.potenze_winet
                                 name: Aumenta valori potenza
                               - entity: input_boolean.attiva_cronotermostato
+                              - entity: input_boolean.attiva_not_per
                           - type: markdown
                             content: |
                               Clicca sempre sul <ha-icon icon="mdi:content-save"></ha-icon> per confermare il valore impostato                              
@@ -315,3 +316,4 @@ cards:
           font-family: oswald;
           font-size: 20px;
         }
+

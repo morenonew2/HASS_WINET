@@ -69,7 +69,7 @@ Nella cartella lovelace  (crearla in ˂config˃se non esiste)
 
 Copiare file winet_view.yaml
 
-### Package
+### Pacchetti
 
 Nella cartella packages (crearla in ˂config˃se non esiste)
 

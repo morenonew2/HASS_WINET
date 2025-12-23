@@ -1,6 +1,8 @@
 # WINET-HA - [Stufasmart](http://stufasmart.it/) -
 ### Package e view per i prodotti WINET (stufa da remoto)
 
+## ATTENZIONE: package update  con soluzione per spegnimento dopo riavvio di HA
+
 NEWS: AGGIUNTO PKG PER GESTIONE CON API CLOUD (SOLO WINET stufa in cloud)
 
 UPDATE: AGGIUNTE NOTIFICHE PERSISTENTI che si possono attivare nel setup

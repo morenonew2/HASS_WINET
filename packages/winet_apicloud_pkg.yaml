@@ -24,6 +24,65 @@ homeassistant:
 #                      NEWAPI WINET GESTIONE
 ###########################################################################
 automation:
+  - id: WINET gestione climate  
+    alias: WINET gestione climate
+    description: ""
+    triggers:
+      - trigger: state
+        entity_id:
+          - switch.winet
+        to:
+          - "on"
+        id: "ON"
+      - trigger: state
+        entity_id:
+          - switch.winet
+        to:
+          - "off"
+        id: "OFF"
+    conditions: []
+    actions:
+      - choose:
+          - conditions:
+              - condition: trigger
+                id:
+                  - "ON"
+            sequence:
+              - action: climate.turn_on
+                metadata: {}
+                target:
+                  entity_id: climate.generic_stove
+                data: {}
+          - conditions:
+              - condition: trigger
+                id:
+                  - "OFF"
+            sequence:
+              - action: climate.turn_off
+                metadata: {}
+                target:
+                  entity_id: climate.generic_stove
+                data: {}
+    mode: single
+  - id: WINET Notifica permanente
+    alias: WINET Notifica permanente
+    description: ""
+    triggers:
+      - trigger: state
+        entity_id:
+          - sensor.status_stufa
+    conditions:
+      - condition: state
+        entity_id: input_boolean.attiva_not_per
+        state:
+          - "on"
+    actions:
+      - action: notify.persistent_notification
+        metadata: {}
+        data:
+          message: "{{ states(\"sensor.status_stufa\") }}"
+          title: WINET
+    mode: single
   - id: Climate Stufa set temp
     alias: Climate Stufa set temp
     description: ""

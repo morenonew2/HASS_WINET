@@ -164,7 +164,7 @@ input_boolean:
   attiva_not_per:
     name: "Attiva notifiche persistenti"
     icon: mdi:information-variant-box
-    initial: "on"
+    initial: "off"
 input_number:
   scegli_temperatura:
     name: "Scegli temperatura"
@@ -359,6 +359,7 @@ climate:
     #initial_hvac_mode: "off" risolto problema di spegnimento al riavvio
     away_temp: 16
     precision: 0.1
+
 
 
 

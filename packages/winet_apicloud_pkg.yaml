@@ -159,10 +159,13 @@ input_boolean:
   water_stufa:
     name: "water stufa"
     icon: mdi:thermometer-water
-  
   potenze_winet:  
     name: "modifica potenze"
     icon: mdi:sun-wireless
+  attiva_not_per:
+    name: "Attiva notifiche persistenti"
+    icon: mdi:information-variant-box
+    initial: "off"  
 
 input_number:
   scegli_temperatura:

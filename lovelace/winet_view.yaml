@@ -71,6 +71,49 @@ cards:
                             color: '#CD5C5C'
                           - from: 6
                             color: '#C0392B'
+                        tap_action:
+                          action: fire-dom-event
+                          browser_mod:
+                            service: browser_mod.popup
+                            data:
+                              style: |
+                                --popup-background-color:
+                                  var(--secondary-background-color);
+                                --dialog-backdrop-filter: blur(2em) brightness(0.75);
+                              dismissable: true
+                              autoclose: false
+                              size: normal
+                              right_button: Close
+                              content:
+                                type: custom:layout-card
+                                layout_type: masonry
+                                layout: {}
+                                cards:
+                                  - type: vertical-stack
+                                    cards:
+                                      - features:
+                                          - type: select-options
+                                        type: tile
+                                        entity: input_select.seleziona_potenza
+                                        vertical: false
+                                        icon_tap_action:
+                                          action: call-service
+                                          service: rest_command.set_power
+                                          target: {}
+                                        show_entity_picture: true
+                                        hide_state: false
+                                        icon: mdi:content-save
+                                        name: Imposta potenza e premi sull'icona
+                                        color: cyan
+                                        card_mod:
+                                          style:
+                                            ha-tile-info$: |
+                                              .secondary {
+                                                font-size: 20px !important;
+                                              } 
+                                              .primary {
+                                                color: var(--entity-warning-color) !important;
+                                              } 
                       - type: custom:hui-element
                         card_type: gauge
                         entity: sensor.n_giri_estrattore_fumi
@@ -316,4 +359,5 @@ cards:
           font-family: oswald;
           font-size: 20px;
         }
+
 

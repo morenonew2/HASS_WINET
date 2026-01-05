@@ -24,46 +24,6 @@ homeassistant:
 #                      NEWAPI WINET GESTIONE
 ###########################################################################
 automation:
-  - id: WINET gestione climate  
-    alias: WINET gestione climate
-    description: ""
-    triggers:
-      - trigger: state
-        entity_id:
-          - switch.winet
-        to:
-          - "on"
-        id: "ON"
-      - trigger: state
-        entity_id:
-          - switch.winet
-        to:
-          - "off"
-        id: "OFF"
-    conditions: []
-    actions:
-      - choose:
-          - conditions:
-              - condition: trigger
-                id:
-                  - "ON"
-            sequence:
-              - action: climate.turn_on
-                metadata: {}
-                target:
-                  entity_id: climate.generic_stove
-                data: {}
-          - conditions:
-              - condition: trigger
-                id:
-                  - "OFF"
-            sequence:
-              - action: climate.turn_off
-                metadata: {}
-                target:
-                  entity_id: climate.generic_stove
-                data: {}
-    mode: single
   - id: WINET Notifica permanente
     alias: WINET Notifica permanente
     description: ""
@@ -306,25 +266,3 @@ switch:
         turn_off:
           service: rest_command.spegnimento_stufa
           
-###########################################################################
-#                            TERMOSTATO 
-###########################################################################
-climate:
-  - platform: generic_thermostat
-    name: Generic Stove
-    unique_id: climate_stove
-    heater: switch.winet
-    target_sensor: sensor.temperatura_aria
-    min_temp: 15
-    max_temp: 21
-    ac_mode: false
-    target_temp: 17
-    cold_tolerance: 0.3
-    hot_tolerance: 0
-    min_cycle_duration:
-      seconds: 5
-    keep_alive:
-      minutes: 3
-    initial_hvac_mode: "off"
-    away_temp: 16
-    precision: 0.1

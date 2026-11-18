@@ -5,16 +5,34 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+from pathlib import Path
+
+from homeassistant.components import frontend
+from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.typing import ConfigType
 
 from .api import WinetApi, WinetApiError, WinetCloudApi, WinetLocalApi
-from .const import CONF_API_KEY, CONF_MODE, MODE_CLOUD
+from .const import CARD_VERSION, CONF_API_KEY, CONF_MODE, DOMAIN, FRONTEND_URL, MODE_CLOUD
 from .coordinator import WinetCoordinator
 
 PLATFORMS = [Platform.SENSOR, Platform.SWITCH, Platform.CLIMATE, Platform.NUMBER]
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Registra la card `custom:winet-card` (nessuna risorsa da aggiungere a mano)."""
+    folder = Path(__file__).parent / "frontend"
+    await hass.http.async_register_static_paths(
+        [StaticPathConfig(FRONTEND_URL, str(folder), cache_headers=False)]
+    )
+    frontend.add_extra_js_url(hass, f"{FRONTEND_URL}/winet-card.js?v={CARD_VERSION}")
+    return True
 
 
 @dataclass

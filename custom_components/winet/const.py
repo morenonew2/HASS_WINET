@@ -6,6 +6,9 @@ from datetime import timedelta
 
 DOMAIN = "winet"
 
+FRONTEND_URL = "/winet_static"
+CARD_VERSION = "1.0.0"
+
 CONF_MODE = "mode"
 MODE_LOCAL = "local"
 MODE_CLOUD = "cloud"

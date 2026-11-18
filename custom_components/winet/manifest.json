@@ -1,0 +1,11 @@
+{
+  "domain": "winet",
+  "name": "WINET (Stufasmart)",
+  "codeowners": ["@morenonew2"],
+  "config_flow": true,
+  "documentation": "https://github.com/morenonew2/HASS_WINET",
+  "issue_tracker": "https://github.com/morenonew2/HASS_WINET/issues",
+  "iot_class": "local_polling",
+  "requirements": [],
+  "version": "1.0.0"
+}

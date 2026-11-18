@@ -1,0 +1,70 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "WINET",
+        "description": "Come è collegata la tua stufa?",
+        "menu_options": {
+          "local": "Locale (indirizzo IP della scheda)",
+          "cloud": "Cloud WINET (chiave API)"
+        }
+      },
+      "local": {
+        "title": "Collegamento locale",
+        "data": { "host": "Indirizzo IP della scheda" }
+      },
+      "cloud": {
+        "title": "Collegamento cloud",
+        "data": { "api_key": "Chiave API" }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossibile comunicare con la stufa",
+      "invalid_auth": "Chiave API non valida"
+    },
+    "abort": {
+      "already_configured": "Questa stufa è già configurata"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opzioni WINET",
+        "data": { "max_power": "Potenza massima selezionabile (1-9)" }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Stato",
+        "state": {
+          "off": "Spento",
+          "on": "Acceso",
+          "flame_wait": "Attesa fiamma",
+          "standby": "Stand-by",
+          "final_cleaning": "Pulizia finale",
+          "brazier_cleaning": "Pulizia braciere",
+          "alarm": "Allarme",
+          "unmanaged": "Non gestito",
+          "unknown": "Sconosciuto"
+        }
+      },
+      "status_description": { "name": "Descrizione stato" },
+      "power": { "name": "Potenza impostata" },
+      "air_temp": { "name": "Temperatura aria" },
+      "air_setpoint": { "name": "Temperatura aria impostata" },
+      "water_temp": { "name": "Temperatura acqua" },
+      "water_setpoint": { "name": "Temperatura acqua impostata" },
+      "flue_temp": { "name": "Temperatura fumi" },
+      "extractor_rpm": { "name": "Giri estrattore fumi" }
+    },
+    "switch": {
+      "power_switch": { "name": "Accensione" }
+    },
+    "number": {
+      "power_level": { "name": "Potenza" },
+      "water_target": { "name": "Temperatura acqua" }
+    }
+  }
+}

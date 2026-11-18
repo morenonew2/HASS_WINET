@@ -18,7 +18,23 @@ Ora esiste una vera **integrazione** (`custom_components/winet`) che sostituisce
 
 Gli stati della stufa (spento, acceso, attesa fiamma, stand-by, pulizia finale, pulizia braciere, allarme, non gestito) sono un sensore *enum* traducibile; per le notifiche usa una normale automazione sul cambio di stato.
 
+### Card WINET (nessuna dipendenza)
+L'integrazione include la card `custom:winet-card` e la registra da sola: **non serve** installare Browser_mod, Card-mod, Layout-card, Paper buttons row, Hui-element, Scheduler-card, template-entity-row né aggiungere risorse (al primo avvio fai un refresh del browser con CTRL-F5).
+
+Aggiungi una scheda → **Manuale** e incolla:
+
+```yaml
+type: custom:winet-card
+entity: climate.winet   # facoltativo: senza, usa la prima stufa WINET
+```
+
+Mostra immagine e stato della stufa, temperatura ambiente, temperatura impostata e potenza con pulsanti **+ / −**, fumi, acqua ed estrattore (se disponibili) e il pulsante Accendi/Spegni con conferma. Toccando un valore si apre la finestra della entità con il grafico storico.
+
+Opzioni: `name` (titolo), `show_water: false` (nasconde l'acqua), `confirm: false` (niente conferma su accendi/spegni).
+
 La vista Lovelace in `lovelace/` e i vecchi package (`packages/`) restano per chi vuole continuare a usarli, ma **non vanno usati insieme** all'integrazione (stesse entità, nomi diversi).
+
+---
 
 ---
 ## ATTENZIONE: package update  eliminato generic_thermostat

@@ -1,6 +1,26 @@
 # WINET-HA - [Stufasmart](http://stufasmart.it/) -
 ### Package e view per i prodotti WINET (stufa da remoto)
+## NOVITÀ: integrazione installabile da HACS
 
+Ora esiste una vera **integrazione** (`custom_components/winet`) che sostituisce il package YAML: niente più `rest`, `rest_command`, `input_*` e automazioni da copiare a mano.
+
+### Installazione con HACS
+1. HACS → menu ⋮ → **Repository personalizzati** → incolla `https://github.com/morenonew2/HASS_WINET` → categoria **Integrazione**.
+2. Scarica **WINET (Stufasmart)** e riavvia Home Assistant.
+3. Impostazioni → Dispositivi e servizi → **Aggiungi integrazione** → *WINET*.
+4. Scegli **Locale** (indirizzo IP della scheda) oppure **Cloud** (chiave API).
+
+### Entità create
+- `climate` con temperatura attuale e impostata (10–40 °C)
+- `switch` accensione/spegnimento
+- `number` potenza (massimo regolabile da *Configura*, 1–9) e, in locale, temperatura acqua (40–80 °C)
+- `sensor`: stato, potenza, temperatura aria e impostata; in locale anche acqua, fumi, giri estrattore e descrizione stato
+
+Gli stati della stufa (spento, acceso, attesa fiamma, stand-by, pulizia finale, pulizia braciere, allarme, non gestito) sono un sensore *enum* traducibile; per le notifiche usa una normale automazione sul cambio di stato.
+
+La vista Lovelace in `lovelace/` e i vecchi package (`packages/`) restano per chi vuole continuare a usarli, ma **non vanno usati insieme** all'integrazione (stesse entità, nomi diversi).
+
+---
 ## ATTENZIONE: package update  eliminato generic_thermostat
 
 NEWS: AGGIUNTO PKG PER GESTIONE CON API CLOUD (SOLO WINET stufa in cloud)
